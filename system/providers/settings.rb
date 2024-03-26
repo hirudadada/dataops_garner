@@ -18,6 +18,7 @@ module Garner
 
       # setting :garner_env, default: 'development', constructor: Types::String.constructor { |value|.downcase }.enum('development', 'production') # rubocop:disable Layout/LineLength
       setting :simulator_pool_size, default: 3, constructor: Types::Integer.constrained(filled: true)
+      setting :collector_pool_size, default: 2, constructor: Types::Integer.constrained(filled: true)
     end
   end
 end
