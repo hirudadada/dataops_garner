@@ -3,11 +3,12 @@
 module Inventory
   module Operations
     class CreateJobLogs < Inventory::Operation
+      include Garnet::Utils::PrettyPrint
       def call(job_logs)
         Sync do
           job_logs_repo.transaction do
             job_logs.each do |job_log|
-              job_log_repo.create(new_jog_log(job_log))
+              job_logs_repo.create(new_job_log(job_log))
             end
           end
         end
@@ -20,7 +21,8 @@ module Inventory
           collected_at: false,
           created_at: Time.now.utc
         )
-        job_log(:job_step_logs).each do |job_step_log|
+
+        job_log[:job_step_logs].each do |job_step_log|
           job_step_log.merge!(created_at: Time.now.utc)
         end
         job_log

@@ -13,6 +13,7 @@ module Inventory
               required(:name).filled(:string)
               required(:started_at).filled(:time)
               required(:ended_at).filled(:time)
+              optional(:error).filled(:string)
             end
           end
         end
