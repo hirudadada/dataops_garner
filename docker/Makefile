@@ -32,27 +32,27 @@ prune:
 	@${CONTAINER_CLI} image prune -f
 	clean: prune
 
-.PHONY: up down down.v ps logs
+.PHONY: up down down.rm ps logs
 up:
 	@${CONTAINER_CLI} compose up -d
-down.rm:
-	@${CONTAINER_CLI} compose down --remove-orphans
 down:
 	@${CONTAINER_CLI} compose down
+down.rm:
+	@${CONTAINER_CLI} compose down --remove-orphans -v
 ps:
 	@${CONTAINER_CLI} compose ps -a
 logs:
 	@${CONTAINER_CLI} compose log -f
 
-.PHONY: up.app.apm shell.app.apm.restart.app.apm logs.app.apm
-up.app.apm:
-	@${CONTAINER_CLI} compose up app.apm -d
-shell.app.apm:
-	@${CONTAINER_CLI} compose exec -it app.apm /bin/sh
-restart.app.apm:
-	@${CONTAINER_CLI} compose restart app.apm
-logs.app.apm:
-	@${CONTAINER_CLI} compose logs app.apm -f
+.PHONY: up.apm shell.apm.restart.apm logs.apm
+up.apm:
+	@${CONTAINER_CLI} compose up apm -d
+shell.apm:
+	@${CONTAINER_CLI} compose exec -it apm /bin/sh
+restart.apm:
+	@${CONTAINER_CLI} compose restart apm
+logs.apm:
+	@${CONTAINER_CLI} compose logs apm -f
 
 .PHONY: up.app.db shell.app.db.restart.app.db logs.app.db
 up.app.db:
@@ -73,3 +73,13 @@ restart.app:
 	@${CONTAINER_CLI} compose restart app
 logs.app:
 	@${CONTAINER_CLI} compose logs app -f
+
+.PHONY: deploy.elastic
+deploy.elastic:
+	@echo "Setup fleet policies for apm agent"
+	@./deploy/elastic/scripts/setup_package_policy.sh
+
+.PHONY: start
+start:
+	@$(MAKE) deploy.elastic &
+	@$(MAKE) up
