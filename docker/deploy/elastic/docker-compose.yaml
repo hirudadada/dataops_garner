@@ -1,0 +1,195 @@
+# Reference: https://www.elastic.co/blog/getting-started-with-the-elastic-stack-and-docker-compose
+
+version: '3.8'
+
+volumes:
+ certs:
+   driver: local
+ es01:
+   driver: local
+ kibanadata:
+   driver: local
+
+services:
+  setup:
+    image: ${DEV_ES_IMAGE}
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs:z
+    user: "0"
+    command: >
+      bash -c '
+        if [ x${DEV_ES_PASSWORD} == x ]; then
+          echo "Set the DEV_ES_PASSWORD environment variable in the .env file";
+          exit 1;
+        elif [ x${DEV_KBN_PASSWORD} == x ]; then
+          echo "Set the DEV_KBN_PASSWORD environment variable in the .env file";
+          exit 1;
+        fi;
+        if [ ! -f config/certs/ca.zip ]; then
+          echo "Creating CA";
+          bin/elasticsearch-certutil ca --silent --pem -out config/certs/ca.zip;
+          unzip config/certs/ca.zip -d config/certs;
+        fi;
+        if [ ! -f config/certs/certs.zip ]; then
+          echo "Creating certs";
+          echo -ne \
+          "instances:\n"\
+          "  - name: ${DEV_ES_SERVICE}\n"\
+          "    dns:\n"\
+          "      - ${DEV_ES_SERVICE}\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          "  - name: ${DEV_KBN_SERVICE}\n"\
+          "    dns:\n"\
+          "      - ${DEV_KBN_SERVICE}\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          "  - name: ${DEV_APM_SERVICE}\n"\
+          "    dns:\n"\
+          "      - ${DEV_APM_SERVICE}\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          > config/certs/instances.yml;
+          bin/elasticsearch-certutil cert --silent --pem -out config/certs/certs.zip --in config/certs/instances.yml --ca-cert config/certs/ca/ca.crt --ca-key config/certs/ca/ca.key;
+          unzip config/certs/certs.zip -d config/certs;
+          cat config/certs/${DEV_ES_SERVICE}/${DEV_ES_SERVICE}.crt config/certs/ca/ca.crt > config/certs/${DEV_ES_SERVICE}/${DEV_ES_SERVICE}.chain.pem
+        fi;
+        echo "Setting file permissions"
+        chown -R root:root config/certs;
+        find . -type d -exec chmod 750 \{\} \;;
+        find . -type f -exec chmod 640 \{\} \;;
+        echo "Waiting for Elasticsearch availability";
+        until curl -s --cacert config/certs/ca/ca.crt ${DEV_ES_HOST} | grep -q "missing authentication credentials"; do sleep 30; done;
+        echo "Setting ${DEV_KBN_USERNAME} password";
+        until curl -s -X POST --cacert config/certs/ca/ca.crt -u ${DEV_ES_USERNAME}:${DEV_ES_PASSWORD} -H "Content-Type: application/json" ${DEV_ES_HOST}/_security/user/${DEV_KBN_USERNAME}/_password -d "{\"password\":\"${DEV_KBN_PASSWORD}\"}" | grep -q "^{}"; do sleep 10; done;
+        echo "All done!";
+      '
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f config/certs/es01/es01.crt ]"]
+      interval: 1s
+      timeout: 5s
+      retries: 120
+
+  es01:
+    depends_on:
+      setup:
+        condition: service_healthy
+    image: ${DEV_ES_IMAGE}
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+      - es01:/usr/share/elasticsearch/data
+    ports:
+      - ${DEV_ES_PORT}:9200
+    environment:
+      - node.name=${DEV_ES_SERVICE}
+      - cluster.name=${CLUSTER_NAME}
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=${DEV_ES_PASSWORD}
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.key=certs/${DEV_ES_SERVICE}/${DEV_ES_SERVICE}.key
+      - xpack.security.http.ssl.certificate=certs/${DEV_ES_SERVICE}/${DEV_ES_SERVICE}.chain.pem
+      - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.http.ssl.verification_mode=certificate
+      - xpack.security.http.ssl.client_authentication=optional
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.key=certs/${DEV_ES_SERVICE}/${DEV_ES_SERVICE}.key
+      - xpack.security.transport.ssl.certificate=certs/${DEV_ES_SERVICE}/${DEV_ES_SERVICE}.crt
+      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.client_authentication=optional
+      - xpack.license.self_generated.type=${LICENSE}
+    # mem_limit: ${DEV_MEM_LIMIT}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+
+  kibana:
+    depends_on:
+      es01:
+        condition: service_healthy
+    image: ${DEV_KBN_IMAGE}
+    volumes:
+      - certs:/usr/share/kibana/config/certs
+      - kibanadata:/usr/share/kibana/data
+      - ./elastic/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+    ports:
+      - ${DEV_KBN_PORT}:5601
+    environment:
+       - SERVER_NAME=kibana
+       - ELASTICSEARCH_HOSTS=${DEV_ES_HOST}
+       - ELASTICSEARCH_USERNAME=${DEV_KBN_USERNAME}
+       - ELASTICSEARCH_PASSWORD=${DEV_KBN_PASSWORD}
+       - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
+       # - SERVER_SSL_ENABLED=true
+       # - SERVER_SSL_CERTIFICATE=config/certs/${DEV_KBN_SERVICE}/${DEV_KBN_SERVICE}.crt
+       # - SERVER_SSL_KEY=config/certs/${DEV_KBN_SERVICE}/${DEV_KBN_SERVICE}.key
+       # - SERVER_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
+       - NODE_OPTIONS="--max_old_space_size=2048"
+       - XPACK_SECURITY_ENCRYPTIONKEY=${DEV_ENCRYPTION_KEY}
+       - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${DEV_ENCRYPTION_KEY}
+       - XPACK_REPORTING_ENCRYPTIONKEY=${DEV_ENCRYPTION_KEY}
+       - ELASTIC_APM_SERVER_URL=${DEV_APM_HOST}
+       - ELASTIC_APM_SECRET_TOKEN=${DEV_APM_SECRET_TOKEN}
+       - APM_SERVICE=${DEV_APM_SERVICE}
+       - APM_TLS=${DEV_APM_TLS}
+    # mem_limit: ${DEV_MEM_LIMIT}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          # "curl -I -s --cacert config/certs/ca/ca.crt https://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
+          "curl -s -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+
+  apm:
+    depends_on:
+      kibana:
+        condition: service_healthy
+      es01:
+        condition: service_healthy
+    image: ${DEV_APM_IMAGE}
+    volumes:
+      - certs:/certs:z
+    ports:
+      - ${DEV_FLEET_PORT}:8220
+      - ${DEV_APM_PORT}:8200
+    restart: always
+    user: root
+    environment:
+      - FLEET_ENROLL=1
+      - FLEET_SERVER_POLICY_ID=${DEV_FLEET_SERVER_POLICY}
+      - FLEET_SERVER_ENABLE=1
+      - KIBANA_FLEET_SETUP=1
+      - KIBANA_HOST=${DEV_KBN_HOST}
+      - FLEET_URL=https://${DEV_APM_SERVICE}:${DEV_FLEET_PORT}
+      - FLEET_SERVER_ELASTICSEARCH_HOST=${DEV_ES_HOST}
+      - FLEET_CA=/certs/ca/ca.crt
+      - KIBANA_FLEET_USERNAME=${DEV_ES_USERNAME}
+      - KIBANA_FLEET_PASSWORD=${DEV_ES_PASSWORD}
+      - FLEET_SERVER_CERT=/certs/${DEV_APM_SERVICE}/${DEV_APM_SERVICE}.crt
+      - FLEET_SERVER_CERT_KEY=/certs/${DEV_APM_SERVICE}/${DEV_APM_SERVICE}.key
+      - FLEET_SERVER_ELASTICSEARCH_CA=/certs/ca/ca.crt
+      - KIBANA_FLEET_CA=/certs/ca/ca.crt
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8200"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
