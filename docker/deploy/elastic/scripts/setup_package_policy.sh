@@ -18,7 +18,7 @@ headers=(
   -H 'Content-Type: application/json'
 )
 
-LOCAL_KBN_URL="${DEV_LOCAL_URL}:${DEV_KBN_PORT}"
+LOCAL_KBN_URL="https://${DEV_LOCAL_URL}:${DEV_KBN_PORT}"
 
 configure_kbn() {
   MAXTRIES=15
@@ -98,7 +98,6 @@ start() {
   sleep 40
 
   echo "Populating Fleet Settings."
-  set_fleet_values
   set_fleet_values > /dev/null 2>&1
   echo
 }

@@ -135,10 +135,10 @@ services:
        - ELASTICSEARCH_USERNAME=${DEV_KBN_USERNAME}
        - ELASTICSEARCH_PASSWORD=${DEV_KBN_PASSWORD}
        - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
-       # - SERVER_SSL_ENABLED=true
-       # - SERVER_SSL_CERTIFICATE=config/certs/${DEV_KBN_SERVICE}/${DEV_KBN_SERVICE}.crt
-       # - SERVER_SSL_KEY=config/certs/${DEV_KBN_SERVICE}/${DEV_KBN_SERVICE}.key
-       # - SERVER_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
+       - SERVER_SSL_ENABLED=true
+       - SERVER_SSL_CERTIFICATE=config/certs/${DEV_KBN_SERVICE}/${DEV_KBN_SERVICE}.crt
+       - SERVER_SSL_KEY=config/certs/${DEV_KBN_SERVICE}/${DEV_KBN_SERVICE}.key
+       - SERVER_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
        - NODE_OPTIONS="--max_old_space_size=2048"
        - XPACK_SECURITY_ENCRYPTIONKEY=${DEV_ENCRYPTION_KEY}
        - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${DEV_ENCRYPTION_KEY}
@@ -152,8 +152,8 @@ services:
       test:
         [
           "CMD-SHELL",
-          # "curl -I -s --cacert config/certs/ca/ca.crt https://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
-          "curl -s -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
+          "curl -I -s --cacert config/certs/ca/ca.crt https://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
+          # "curl -s -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
         ]
       interval: 10s
       timeout: 10s
