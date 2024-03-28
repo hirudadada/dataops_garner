@@ -16,6 +16,7 @@ module Garner
       setting :database_url, constructor: Types::String.constrained(filled: true)
       setting :enable_sql_log, default: false, constructor: Types::Params::Bool.optional
 
+      # setting :garner_env, default: 'development', constructor: Types::String.constructor { |value|.downcase }.enum('development', 'production') # rubocop:disable Layout/LineLength
       setting :simulator_pool_size, default: 3, constructor: Types::Integer.constrained(filled: true)
     end
   end

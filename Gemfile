@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 git_source(:metasync) do |repo_name|
   "https://github.com/metasync/#{repo_name}.git"

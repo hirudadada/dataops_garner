@@ -10,3 +10,4 @@ services:
     working_dir: ${DB_HOME}
     volumes:
       - ./.data/dev_${DEV_DB_NAME}_psql:/var/lib/postgresql/data
+
