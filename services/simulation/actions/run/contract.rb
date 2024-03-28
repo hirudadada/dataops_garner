@@ -3,7 +3,7 @@
 module Simulation
   module Actions
     class Run
-      class Contract
+      class Contract < Garnet::Contract
         schema do
           required(:job)
         end

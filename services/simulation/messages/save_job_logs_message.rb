@@ -6,7 +6,7 @@ module Simulation
       include Inventory::Deps['actions.create_job_logs.contract']
 
       from 'simulation.actors.simulator'
-      to 'inventory.actor.controller'
+      to 'inventory.actors.controller'
       action :create_job_logs
     end
   end

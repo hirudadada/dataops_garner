@@ -2,11 +2,12 @@
 
 module Simulation
   module Messages
-    # signifys next run
     class RunNextMessage < Garnet::Message
+      include Deps['actions.run.contract']
+
       from 'simulation.actors.simulator'
       to 'simulation.actors.simulator'
-      action :run_next
+      action 'run'
     end
   end
 end

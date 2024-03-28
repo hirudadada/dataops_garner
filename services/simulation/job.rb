@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
+# auto_register: false
+
 module Simulation
   class Job
     extend Dry::Initializer
-    include Garnet::Utils::PrettyPrint
 
     option :name
     option :steps
@@ -16,18 +17,15 @@ module Simulation
 
     def run
       @batches += 1
-      @batch_size.times.map { render_job_logs }
+      batch_size.times.map { |_| render_job_log }
     end
 
-    def max_batches_reached? = @batches >= @max_batches
+    def max_batches_reached? = @batches >= max_batches
 
     protected
 
-    def render_job_logs
-      job_log = {
-        name: @name,
-        job_step_logs: []
-      }
+    def render_job_log
+      job_log = { name: @name, job_step_logs: [] }
       job_log[:started_at] = Time.now
       render_step_logs(job_log)
       job_log[:ended_at] = Time.now
@@ -41,14 +39,14 @@ module Simulation
     end
 
     def render_step_log(step)
-      step_log = { name: "step #{step}" }
+      step_log = { name: "step #{step}-time #{Time.now}" }
       step_log[:started_at] = Time.now
       raise StandardError, "Random error hit for #{@name}" if @error_rate > Random.rand
 
       sleep Random.rand(max_step_duration)
       step_log
     rescue StandardError => e
-      step_log[:error] = e
+      step_log[:error] = e.message
       step_log
     ensure
       step_log[:ended_at] = Time.now
