@@ -5,7 +5,7 @@ module Simulation
     class Run < Simulation::Action
       include Deps['actions.run.contract']
       include Deps['messages.save_job_logs_message']
-      include Deps['messages.run_next_messaes']
+      include Deps['messages.run_next_message']
       include Garnet::Utils::PrettyPrint
 
       def handle(params)

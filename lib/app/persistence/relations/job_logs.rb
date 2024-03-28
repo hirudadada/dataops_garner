@@ -4,8 +4,8 @@ module Garner
   module Persistence
     module Relations
       class JobLogs < ROM::Relation[:sql]
-        schema(:job_log, as: :job_logs, infer: true) do
-          association do
+        schema(:job_logs, infer: true) do
+          associations do
             has_many :job_step_logs
           end
         end

@@ -3,6 +3,7 @@
 module Simulation
   class Job
     extend Dry::Initializer
+    include Garnet::Utils::PrettyPrint
 
     option :name
     option :steps

@@ -4,6 +4,7 @@ module Inventory
   module Actors
     class Controller < Inventory::Actor
       include Deps['actions.create_job_logs']
+      include Deps['actions.find_job_logs']
     end
   end
 end

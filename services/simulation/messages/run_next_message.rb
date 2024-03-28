@@ -3,7 +3,7 @@
 module Simulation
   module Messages
     # signifys next run
-    class RunNext < Garnet::Message
+    class RunNextMessage < Garnet::Message
       from 'simulation.actors.simulator'
       to 'simulation.actors.simulator'
       action :run_next
