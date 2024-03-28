@@ -1,19 +1,86 @@
+# Ignore bundler config.
 .bundle
-vendor
+
+# Ignore packaged gems.
+/vendor/bundle
+
+# Ignore generated files.
 **/out
 .yardoc
 _yardoc
-coverage
-doc
-pkg
-tmp
-log
-.git
+coverage/
+doc/
+pkg/
+
+# Log files and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore uploaded files in development.
+/storage/*
+!/storage/.keep
+
+# Ignore specific environment config files.
+/config/environments/*.local.yml
+/config/environments/*.secret.yml
+
+# Ignore the master key for encrypting credentials and more.
+/config/master.key
+
+# Ignore precompiled assets.
+/public/assets
+/public/packs
+/public/packs-test
+/public/system
+
+# Ignore Yarn error logs.
+.yarn-error.log
+
+# Ignore dotenv configuration files.
+*.env
+.env
+.env.*
+.env.local
+.env.*.local
+
+# Ignore the database schema and seeds files.
+/db/schema.rb
+/db/seeds.rb
+
+# Ignore system and editor files.
 .DS_Store
 .bash_history
-.data
+# Vim temporary files.
+*~
+*.swp
+*.swo
+*.un~
+Session.vim
+.netrwhist
+
+# Ignore sensitive files and directories.
 authorized_keys
 .cache
-
 *.crt
 *.key
+
+# Ignore Git specific files.
+.git
+
+# Ignore temporary data files.
+.data
+
+# Ignore database files for Microsoft SQL Server and PostgreSQL.
+# Uncomment the lines for the database you're using.
+# MSSQL files
+#*.mdf
+#*.ldf
+#*.ndf
+# PostgreSQL files
+#*.pid
+#*.pid.lock
+/pgdata
+# *.sql
+*.dump
