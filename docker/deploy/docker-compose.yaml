@@ -5,7 +5,7 @@ services:
   app:
     depends_on:
       - app.db
-      # - agent
+      - agent
     image: ${DEV_IMAGE}
     env_file:
       - env/cipher.env
