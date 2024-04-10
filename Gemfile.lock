@@ -1,7 +1,5 @@
-GIT
-  remote: https://github.com/metasync/garnet.git
-  revision: 00385cc7fccaeba7f5f91cd181a751fccbd22162
-  branch: main
+PATH
+  remote: ../garnet
   specs:
     garnet (0.1.0)
       dotenv (~> 2.8)
@@ -136,7 +134,7 @@ GEM
       dry-core (~> 1.0)
       rom-core (~> 5.3)
       transproc (~> 1.0, >= 1.1.0)
-    rom-core (5.3.0)
+    rom-core (5.3.1)
       concurrent-ruby (~> 1.1)
       dry-configurable (~> 1.0)
       dry-core (~> 1.0)
@@ -173,7 +171,7 @@ GEM
       sorbet-runtime (>= 0.5.10782)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
-    sequel (5.78.0)
+    sequel (5.79.0)
       bigdecimal
     sorbet-runtime (0.5.11286)
     timers (4.3.5)
