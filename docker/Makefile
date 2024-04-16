@@ -1,9 +1,8 @@
 include Makefile.env
 
-.PHONY: env env.show
-env:
-	@printenv
-env.show:
+.PHONY: print.env
+
+print.env:
 	@echo "Environment variables in make process:"
 	@$(foreach V,$(sort $(.VARIABLES)), $(if $(filter-out environment% default automatic,$(origin $V)),$(warning $V=$($V) )))
 
@@ -74,12 +73,12 @@ restart.app:
 logs.app:
 	@${CONTAINER_CLI} compose logs app -f
 
-.PHONY: deploy.elastic
-deploy.elastic:
+.PHONY: prep.elastic
+prep.elastic:
 	@echo "Setup fleet policies for apm agent"
 	@./deploy/elastic/scripts/setup_package_policy.sh
 
 .PHONY: start
 start:
-	@$(MAKE) deploy.elastic &
+	@$(MAKE) prep.elastic &
 	@$(MAKE) up
