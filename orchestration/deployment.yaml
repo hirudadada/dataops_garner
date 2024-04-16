@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: garner
+  namespace: garner
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: garner
+          image: garner:latest
+          envFrom:
+            - configMapRef:
+              name: db-config
+            - secretRef:
+              name: db-secrets
+

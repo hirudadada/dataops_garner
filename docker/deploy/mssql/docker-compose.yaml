@@ -1,20 +1,58 @@
 version: "3.6"
 
 services:
-  app.db:
+  app.db1:
     image: ${DEV_DB_IMAGE}
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
-      - MSSQL_DATABASE=${DEV_DB_NAME}
+      - MSSQL_SA_PASSWORD=${DEV_DB1_PASSWORD}
+      - MSSQL_DATABASE=${DEV_DB1_NAME}
     working_dir: ${DB_HOME}
     volumes:
-      - ./.data/dev_${DEV_DB_NAME}_mssql:/var/opt/mssql
-      - ./mssql/scripts:${DB_HOME}
+      - ./.data/dev_${DEV_DB1_HOST}_mssql:/var/opt/mssql
+      - ./mssql/scripts_${DEV_DB1_HOST}:${DB_HOME}:ro
     command: ["./setup-db.sh"]
+    ports:
+      - "${DEV_DB1_PORT}:1433"
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${MSSQL_SA_PASSWORD}", "-Q", "IF EXISTS (SELECT * FROM sys.databases WHERE name = '${DEV_DB_NAME}') SELECT 1 ELSE SELECT 0"]
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${MSSQL_SA_PASSWORD}", "-Q", "IF EXISTS (SELECT * FROM sys.databases WHERE name = '${DEV_DB1_NAME}') SELECT 1 ELSE SELECT 0"]
       start_period: 20s
       interval: 10s
       timeout: 5s
       retries: 7
+  app.db2:
+    image: ${DEV_DB_IMAGE}
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${DEV_DB2_PASSWORD}
+      - MSSQL_DATABASE=${DEV_DB2_NAME}
+    working_dir: ${DB_HOME}
+    volumes:
+      - ./.data/dev_${DEV_DB2_HOST}_mssql:/var/opt/mssql
+      - ./mssql/scripts_${DEV_DB2_HOST}:${DB_HOME}:ro
+    command: ["./setup-db.sh"]
+    ports:
+      - "${DEV_DB2_PORT}:1433"
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${MSSQL_SA_PASSWORD}", "-Q", "IF EXISTS (SELECT * FROM sys.databases WHERE name = '${DEV_DB2_NAME}') SELECT 1 ELSE SELECT 0"]
+      start_period: 20s
+      interval: 10s
+      timeout: 5s
+      retries: 7
+      # app.db3:
+      #   image: ${DEV_DB_IMAGE}
+    #   environment:
+    #     - ACCEPT_EULA=Y
+    #     - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    #     - MSSQL_DATABASE=${DEV_DB_NAME}
+    #   working_dir: ${DB_HOME}
+    #   volumes:
+    #     - ./.data/dev_${DEV_DB_NAME}_mssql:/var/opt/mssql
+    #     - ./mssql/scripts:${DB_HOME}
+    #   command: ["./setup-db.sh"]
+    #   healthcheck:
+    #     test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${MSSQL_SA_PASSWORD}", "-Q", "IF EXISTS (SELECT * FROM sys.databases WHERE name = '${DEV_DB_NAME}') SELECT 1 ELSE SELECT 0"]
+    #     start_period: 20s
+    #     interval: 10s
+    #     timeout: 5s
+    #     retries: 7
