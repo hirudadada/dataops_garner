@@ -53,15 +53,15 @@ restart.apm:
 logs.apm:
 	@${CONTAINER_CLI} compose logs apm -f
 
-.PHONY: up.app.db shell.app.db.restart.app.db logs.app.db
-up.app.db:
-	@${CONTAINER_CLI} compose up app.db -d
-shell.app.db:
-	@${CONTAINER_CLI} compose exec -it app.db /bin/sh
-restart.app.db:
-	@${CONTAINER_CLI} compose restart app.db
-logs.app.db:
-	@${CONTAINER_CLI} compose logs app.db -f
+.PHONY: up.app.db1 shell.app.db1.restart.app.db1 logs.app.db1
+up.app.db1:
+	@${CONTAINER_CLI} compose up app.db1 -d
+shell.app.db1:
+	@${CONTAINER_CLI} compose exec -it app.db1 /bin/sh
+restart.app.db1:
+	@${CONTAINER_CLI} compose restart app.db1
+logs.app.db1:
+	@${CONTAINER_CLI} compose logs app.db1 -f
 
 .PHONY: up.app shell.app restart.app logs.app
 up.app:
