@@ -6,20 +6,24 @@ require 'async'
 
 require_relative 'app'
 
-Garnet.boot
+begin
+  Garnet.boot
 
-puts "App name: #{Garnet.app.app_name}"
-puts "App container: #{Garnet.app.keys}"
-puts "App services: #{Garnet.services.keys.to_a}"
-puts
+  puts "App name: #{Garnet.app.app_name}"
+  puts "App container: #{Garnet.app.keys}"
+  puts "App services: #{Garnet.services.keys.to_a}"
+  puts
 
-puts "Simulation container keys: #{Simulation::Service.keys}"
-puts "Ingestion container keys: #{Ingestion::Service.keys}"
-puts "Inventory container keys: #{Inventory::Service.keys}"
-puts "Elastic container keys: #{Elastic::Service.keys}"
+  puts "Simulation container keys: #{Simulation::Service.keys}"
+  puts "Ingestion container keys: #{Ingestion::Service.keys}"
+  puts "Inventory container keys: #{Inventory::Service.keys}"
+  puts "Elastic container keys: #{Elastic::Service.keys}"
 
-Simulation::Service['actors.simulator'].request(:start)
-Ingestion::Service['actors.collector'].request(:start)
+  # Simulation::Service['actors.simulator'].request(:start)
+  Ingestion::Service['actors.collector'].request(:start)
 
-sleep 20
-Garnet.shutdown
+  sleep 20
+  Garnet.shutdown
+rescue Exception => e # rubocop:disable Lint/RescueException
+  Garner::ExceptionManager.handle(e)
+end
