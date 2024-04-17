@@ -2,12 +2,12 @@
 
 source 'https://rubygems.org'
 
-git_source(:metasync) do |repo_name|
-  "https://github.com/metasync/#{repo_name}.git"
-end
-
-gem 'garnet', metasync: 'garnet', branch: 'main'
-# gem 'garnet', path: '/gems/garnet'
+# git_source(:metasync) do |repo_name|
+#   "https://github.com/metasync/#{repo_name}.git"
+# end
+#
+# gem 'garnet', metasync: 'garnet', branch: 'main'
+gem 'garnet', path: '/gems/garnet'
 
 gem 'dry-initializer', '~>3.1.1'
 

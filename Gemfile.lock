@@ -1,5 +1,5 @@
 PATH
-  remote: ../garnet
+  remote: /gems/garnet
   specs:
     garnet (0.1.0)
       dotenv (~> 2.8)
