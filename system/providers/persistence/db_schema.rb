@@ -8,6 +8,7 @@ module Garner
       required(:db_password).filled(:string)
       required(:database_url).filled(:string)
       required(:enable_sql_log).filled(:bool)
+      required(:use_named_schema).filled(:bool)
     end
   end
 end
