@@ -2,7 +2,6 @@
 
 require 'bundler/setup'
 require 'garnet'
-
 require 'async'
 
 require_relative 'app'

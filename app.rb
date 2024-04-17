@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'services'
+require_relative 'services/simulation'
+require_relative 'services/inventory'
+require_relative 'services/ingestion'
+require_relative 'services/elastic'
 require_relative 'app/app'
-
-# :nodoc:
-module Garner
-  class App < Garnet::Application
-  end
-end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'defaults'
+require_relative 'constants'
 require_relative 'env_db_sources'
 require_relative 'yaml_db_sources'
 

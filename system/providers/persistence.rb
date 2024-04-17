@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
+require_relative 'persistence/constants'
 require_relative 'persistence/db_sources_provider'
 
 module Garner
+  # TODO: error handling
   db_sources = Persistence::DbSourcesProvider.provide.fetch
+
   db_sources.each do |source|
     App.register_provider source[:name], source: :persistence, from: :garnet do
       config.name = source[:name]

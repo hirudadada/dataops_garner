@@ -9,9 +9,7 @@ module Garner
         }
       end
 
-      alias sanitize finalize_for_filepath
-
-      def finalize_for_filepath(input) = sanitize_for_filepath(input).downcase[0, 255]
+      def sanitize(input) = sanitize_for_filepath(input).downcase[0, 255]
 
       private
 
