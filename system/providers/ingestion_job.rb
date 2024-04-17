@@ -19,7 +19,7 @@ module Ingestion
     start do
       ingestion_config = settings.to_h
                                  .select { |k| k.start_with? JOB_CONFIG_PREFIX }
-                                 .transform_keys { |k| k.to_s.sub(/^#{JOB_CONFIG_PREFIX}_/, '').to_sym }
+                                 .transform_keys { |k| k.to_s.sub(/^#{JOB_CONFIG_PREFIX}_/, '') }
 
       ingestion_config = JobSchema.call(ingestion_config).to_h
 
