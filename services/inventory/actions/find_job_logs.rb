@@ -6,7 +6,7 @@ module Inventory
       include Deps['actions.find_job_logs.contract']
       include Deps['operations.find_job_logs']
 
-      def handle(params) = find_job_logs.call(params[:limit])
+      def handle(params) = find_job_logs.call(job: params[:job], limit: params[:limit])
     end
   end
 end

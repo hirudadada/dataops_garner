@@ -4,6 +4,7 @@ module Ingestion
   module Actors
     class Collector < Garner::ActorPool
       class Worker < Ingestion::Actor
+        include Deps['actions.run']
         include Deps['actions.start']
         include Deps['actions.handle_fetched_job_logs']
         include Deps['actions.handle_submitted']

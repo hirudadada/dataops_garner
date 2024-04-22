@@ -9,7 +9,16 @@ source 'https://rubygems.org'
 # gem 'garnet', metasync: 'garnet', branch: 'main'
 gem 'garnet', path: '/gems/garnet'
 
+gem 'dry-container', '~>0.11.0'
+gem 'dry-configurable', '~>1.1.0'
 gem 'dry-initializer', '~>3.1.1'
+gem 'dry-struct', '~> 1.6.0'
+gem 'dry-system', '~> 1.0.1'
+gem 'dry-types', '~> 1.7.2'
+gem 'dry-validation', '~> 1.10.0'
+
+gem 'erb', '~> 4.0.4'
+gem 'yaml', '~> 0.3.0'
 
 gem 'tiny_tds', '2.1.7'
 

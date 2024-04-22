@@ -13,7 +13,7 @@ module Simulation
         job_logs = job.run
         logger.info "Rendered #{job_logs.size} job logs for #{job.name}"
 
-        save_job_logs_message.deliver!(job_logs:).fmap do |_r|
+        save_job_logs_message.deliver!(job:, job_logs:).fmap do |_r|
           if job.max_batches_reached?
             logger.info "Completed simulation for #{job.name}"
           else

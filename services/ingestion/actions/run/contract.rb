@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
-module Inventory
+module Ingestion
   module Actions
-    class FindJobLogs
+    class Run
       class Contract < Garnet::Contract
         schema do
           required(:job)
-          required(:limit)
         end
       end
     end
   end
 end
-

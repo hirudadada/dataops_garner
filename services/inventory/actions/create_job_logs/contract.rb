@@ -5,6 +5,7 @@ module Inventory
     class CreateJobLogs
       class Contract < Garnet::Contract
         schema do
+          required(:job)
           required(:job_logs).array(:hash) do
             required(:name).filled(:string)
             required(:started_at).filled(:time)

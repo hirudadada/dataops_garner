@@ -5,6 +5,7 @@ module Inventory
     class UpdateJobLogsAsCollected
       class Contract < Garnet::Contract
         schema do
+          required(:job)
           required(:slice).filled(:string)
           required(:job_logs).filled(:array)
         end

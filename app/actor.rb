@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module Garner
-  # IOC of Actors
   class Actor < Garnet::Actor::Base
     include Deps[:settings]
     include Deps[:logger]

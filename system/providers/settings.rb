@@ -13,6 +13,14 @@ module Garner
 
       setting :simulator_pool_size, default: 2, constructor: Types::Coercible::Integer.constrained(gteq: 1)
 
+      setting :simulation_job_name, default: 'simulation_job', constructor: Types::String.constrained(filled: true)
+      setting :simulation_job_steps, default: 2, constructor: Types::Coercible::Integer.constrained(gteq: 1)
+      setting :simulation_job_max_step_duration, default: 0.1, constructor: Types::Coercible::Float.constrained(gteq: 0.1)
+      setting :simulation_job_error_rate, default: 0.01, constructor: Types::Coercible::Float.constrained(gteq: 0.0, lteq: 1.0)
+      setting :simulation_job_max_batches, default: 5, constructor: Types::Coercible::Integer.constrained(gteq: 1)
+      setting :simulation_job_batch_size, default: 10, constructor: Types::Coercible::Integer.constrained(gteq: 1)
+      setting :simulation_job_batch_wait, default: 0.5, constructor: Types::Coercible::Float.constrained(gteq: 0.1)
+
       setting :ingestion_job_name, default: 'ingestion_job', constructor: Types::String.constrained(filled: true)
       setting :ingestion_job_max_batches, default: 5, constructor: Types::Coercible::Integer.constrained(gteq: 1)
       setting :ingestion_job_batch_size, default: 20, constructor: Types::Coercible::Integer.constrained(gteq: 1)
