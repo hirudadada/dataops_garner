@@ -3,11 +3,11 @@
 module Ingestion
   module Actions
     class Start < Ingestion::Action
-      include Deps[:jobs]
+      include Deps['ingestion_jobs']
       include Deps['messages.run_next_message']
 
       def handle(_params)
-        jobs.each { |job| start_job(job) }
+        ingestion_jobs.each { |job| start_job(job) }
       end
 
       def start_job(job)

@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
 module Garner
-  module PersistenceStrategies
+  module PrefixMapping
     def self.included(base)
       base.extend ClassMethods
-      strategies.each do |name, proc|
+      mappings.each do |name, proc|
         base.const_set(name, proc)
       end
     end
 
-    def self.strategies
+    def self.mappings
       {
-        RemovePersistencePrefix: ->(rom_key) {
+        RemovePersistencePrefix: lambda { |rom_key|
           rom_key.to_s.downcase.sub(/.*?persistence\./, '').split('.').first
         },
-        ConvertToSymbol: ->(rom_key) {
+        ConvertToSymbol: lambda { |rom_key|
           rom_key.to_s.downcase.to_sym
         }
       }

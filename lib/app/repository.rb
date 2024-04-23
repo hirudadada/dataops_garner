@@ -7,7 +7,7 @@ module Garner
     attr_accessor :container
 
     def initialize(container: nil)
-      container = container || Deps['persistence.rom']
+      container ||= Deps['persistence.rom']
       super(container)
     end
   end

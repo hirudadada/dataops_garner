@@ -14,7 +14,7 @@ module Garner
       # alias []= register
       def [](exception_class)
         Module.new do
-          define_singletone_method :included do |base|
+          define_singleton_method :included do |base|
             base.extend ClassMethods
             ProvisionExceptionManager.register(exception_class, base.method(:handle_exception))
           end

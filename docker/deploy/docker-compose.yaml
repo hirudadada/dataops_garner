@@ -6,8 +6,8 @@ services:
     depends_on:
       app.db1:
         condition: service_healthy
-      app.db2:
-        condition: service_healthy
+      # app.db2:
+      #   condition: service_healthy
       apm:
         condition: service_healthy
     image: ${DEV_IMAGE}

@@ -5,18 +5,18 @@ require 'singleton'
 
 require_relative 'repositories/job_logs_repo'
 require_relative 'repositories/job_step_logs_repo'
-require_relative '../../lib/app/persistence_strategies'
+require_relative '../../lib/app/prefix_mapping'
 
 module Inventory
   class RepoRegistry
     include Singleton
     include Dry::Container::Mixin
-    include Garner::PersistenceStrategies
+    include Garner::PrefixMapping
 
     MAPPING = {
       job_logs: Repositories::JobLogsRepo,
       job_step_logs: Repositories::JobStepLogsRepo
-    }
+    }.freeze
 
     use_strategy RemovePersistencePrefix
 

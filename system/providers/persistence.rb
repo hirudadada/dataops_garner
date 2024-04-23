@@ -18,6 +18,7 @@ module Garner
 
       class << self
         attr_accessor :db_config, :databases
+
         def database_config(db_identifier)
           databases[db_identifier.to_sym] ||= {}
         end
@@ -74,7 +75,7 @@ module Garner
       end
 
       rule(:db_service) do
-        key.failure("must be provided when use_named_schema is true") if values[:use_named_schema] && value.nil?
+        key.failure('must be provided when use_named_schema is true') if values[:use_named_schema] && value.nil?
       end
     end
 
@@ -83,15 +84,15 @@ module Garner
         db_config = DatabaseConfig.new(**settings)
         result = DbConfigSchema.call(db_config.to_h)
         raise ArgumentError, result.errors.to_h unless result.success?
+
         db_config
       end
 
       def determine_rom_key(db_identifier, settings)
         raise ArgumentError, "settings must be a hash, got #{settings.class}" unless settings.is_a?(Hash)
+
         name = db_identifier
-        if settings[:db_service]
-          name = settings[:db_service].downcase.to_sym
-        end
+        name = settings[:db_service].downcase.to_sym if settings[:db_service]
         ConfigUtils.format_for_path(name.to_s).to_sym
       end
 
@@ -115,26 +116,27 @@ module Garner
         end
       end
 
-      def load_from_env
+      def load_from_env # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
         temp_databases = {}
 
         puts 'Loading from ENV'
         ENV.each do |key, value|
-          # match = key.match(/^DB__([^\_]+)__(.+)$/)
-          # next unless match
-
           next unless key.start_with?('DB__')
 
           parts = key.split('__')
           if parts.length == 3
             # DB__<IDENTIFIER>__<SETTING>
-            db_identifier, setting_key = parts[1].downcase.to_sym, parts[2].downcase.to_sym
+            db_identifier = parts[1].downcase.to_sym
+            setting_key = parts[2].downcase.to_sym
           elsif parts.length == 2
             # DB__<SETTING> for the default database
-            db_identifier, setting_key = :default, parts[1].downcase.to_sym
+            db_identifier = :default
+            setting_key = parts[1].downcase.to_sym
           else
             next
           end
+          # match = key.match(/^DB__([^\_]+)__(.+)$/)
+          # next unless match
 
           # db_identifier, setting_key = match.captures.map(&:downcase).map(&:to_sym)
 
@@ -150,7 +152,7 @@ module Garner
           temp_databases[db_identifier][setting_key] = setting_value
         end
 
-        # Consolidate configurations
+        # Consolidate configurations: picking key :db_service as the final identifier if present
         temp_databases.each do |db_identifier, settings|
           final_identifier = determine_rom_key(db_identifier, settings)
           if DbConfig.databases[final_identifier]
@@ -169,9 +171,9 @@ module Garner
         load_from_env
       end
 
-      def provider_name(rom_key) = "persistence.#{rom_key}".to_sym
+      def provider_name(rom_key) = :"persistence.#{rom_key}"
 
-      def register_providers
+      def register_providers # rubocop:disable Metrics/AbcSize
         DbConfig.get_setting(:databases).each do |rom_key, db_config|
           Garnet.app.register_provider(provider_name(rom_key), source: :persistence, from: :garnet) do
             config.name = rom_key.to_s
@@ -199,7 +201,7 @@ module Garner
   end
 
   Garner::Persistence.load
-  # # For Debug
+  # # For Debugging
   # Persistence::DbConfig.get_setting(:databases).each do |rom_key, config_instance|
   #   puts "Configurations for #{rom_key}:"
   #   config_instance.instance_variables.each do |var|

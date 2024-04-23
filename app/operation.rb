@@ -5,6 +5,6 @@ module Garner
     include Deps[:settings]
     include Deps[:logger]
     include Deps[:inflector]
-    include Deps[:persistence_strategies]
+    include Deps[:mapping]
   end
 end

@@ -39,20 +39,20 @@ services:
       interval: 10s
       timeout: 5s
       retries: 7
-      # app.db3:
-      #   image: ${DEV_DB_IMAGE}
-    #   environment:
-    #     - ACCEPT_EULA=Y
-    #     - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
-    #     - MSSQL_DATABASE=${DEV_DB_NAME}
-    #   working_dir: ${DB_HOME}
-    #   volumes:
-    #     - ./.data/dev_${DEV_DB_NAME}_mssql:/var/opt/mssql
-    #     - ./mssql/scripts:${DB_HOME}
-    #   command: ["./setup-db.sh"]
-    #   healthcheck:
-    #     test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${MSSQL_SA_PASSWORD}", "-Q", "IF EXISTS (SELECT * FROM sys.databases WHERE name = '${DEV_DB_NAME}') SELECT 1 ELSE SELECT 0"]
-    #     start_period: 20s
-    #     interval: 10s
-    #     timeout: 5s
-    #     retries: 7
+  # app.db3:
+  #   image: ${DEV_DB_IMAGE}
+  #   environment:
+  #     - ACCEPT_EULA=Y
+  #     - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+  #     - MSSQL_DATABASE=${DEV_DB_NAME}
+  #   working_dir: ${DB_HOME}
+  #   volumes:
+  #     - ./.data/dev_${DEV_DB_NAME}_mssql:/var/opt/mssql
+  #     - ./mssql/scripts:${DB_HOME}
+  #   command: ["./setup-db.sh"]
+  #   healthcheck:
+  #     test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${MSSQL_SA_PASSWORD}", "-Q", "IF EXISTS (SELECT * FROM sys.databases WHERE name = '${DEV_DB_NAME}') SELECT 1 ELSE SELECT 0"]
+  #     start_period: 20s
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 7

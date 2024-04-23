@@ -11,7 +11,7 @@ module Inventory
       @job = opts[:job]
     end
 
-    def strategy = persistence_strategies[:RemovePersistencePrefix]
+    def strategy = mapping[:RemovePersistencePrefix]
 
     def job_logs_repo
       rom_key = strategy.call(job.name)

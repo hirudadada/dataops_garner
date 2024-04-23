@@ -12,7 +12,9 @@ spec:
           image: garner:latest
           envFrom:
             - configMapRef:
+              name: service-config
+            - configMapRef:
               name: db-config
             - secretRef:
-              name: db-secrets
+              name: secrets
 

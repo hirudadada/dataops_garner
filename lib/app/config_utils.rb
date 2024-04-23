@@ -8,7 +8,7 @@ module Garner
       end
 
       def format_for_class_name(env_key)
-        camel_case(sanitize(str))
+        camel_case(sanitize(env_key))
       end
 
       private
@@ -18,7 +18,7 @@ module Garner
       end
 
       def camel_case(str)
-        str.split('.').map { |e| e.gsub(/(?:\A|_)([a-z])/) { $1.upcase } }.join
+        str.split('.').map { |e| e.gsub(/(?:\A|_)([a-z])/) { ::Regexp.last_match(1).upcase } }.join
       end
     end
   end

@@ -7,10 +7,6 @@ module Inventory
     class JobLogsRepo < ROM::Repository[:job_logs]
       # include Deps['repositories.job_step_logs_repo']
 
-      def initialize(container:)
-        super(container:)
-      end
-
       def create(job_log)
         base_query.command(:create).call(job_log)
       end

@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Configmap
+metadata:
+  name: service-config
+  namespace: garner
+data:
+  # APP_ENV: development
+  APP_ENV: test
+  # APP_ENV: production
+
+  # SIMULATION_JOB_NAME: "simulation_job"
+  # SIMULATION_JOB_STEPS: "2"
+  # SIMULATION_JOB_MAX_STEP_DURATION: "0.1"
+  # SIMULATION_JOB_ERROR_RATE: "0.01"
+  # # Note: Intentionally left out for looping endlessly
+  # # SIMULATION_JOB_MAX_BATCHES: "5"
+  # SIMULATION_JOB_BATCH_SIZE: "10"
+  # SIMULATION_JOB_BATCH_WAIT: "0.5"
+  # SIMULATOR_POOL_SIZE: 2
+
+  INGESTION_JOB_NAME: ingestion_job
+  # # Note: Intentionally left out for looping endlessly
+  # INGESTION_JOB_MAX_BATCHES: "5"
+  INGESTION_JOB_BATCH_SIZE: "20"
+  INGESTION_JOB_SLICE_SIZE: "5"
+  INGESTION_JOB_BATCH_WAIT: "1"
+  COLLECTOR_POOL_SIZE: "2"
+
+  WAIT_INTERVAL: 20
