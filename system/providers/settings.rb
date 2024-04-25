@@ -18,8 +18,8 @@ module Garner
       setting :db_user, constructor: Types::String.constrained(filled: true)
       setting :db_password, constructor: Types::String.constrained(filled: true)
       setting :database_url, constructor: Types::String.constrained(filled: true)
-      setting :enable_sql_log, constructor: Types::Bool.default(false)
-      setting :use_named_schema, constructor: Types::Bool.default(false)
+      setting :enable_sql_log, default: false, constructor: Types::Bool.default(false)
+      setting :use_named_schema, default: false, constructor: Types::Bool.default(false)
 
       setting :apm_server_url, constructor: Types::String.constrained(filled: true)
       setting :apm_secret_token, constructor: Types::String.constrained(filled: true)

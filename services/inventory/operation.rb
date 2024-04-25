@@ -2,8 +2,7 @@
 
 module Inventory
   class Operation < Garner::Operation
-    # include Deps['repositories.job_logs_repo']
-    include Deps[:repo_registry]
+    include Deps['repositories.job_logs_repo']
 
     attr_reader :job
 

@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
-require_relative '../../app/repository'
-
 module Inventory
   module Repositories
     class JobLogsRepo < ROM::Repository[:job_logs]
-      # include Deps['repositories.job_step_logs_repo']
+      include Deps['repositories.job_step_logs_repo']
 
       def create(job_log)
         base_query.command(:create).call(job_log)
