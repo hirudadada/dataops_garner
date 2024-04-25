@@ -7,52 +7,71 @@ require 'logger'
 
 require_relative 'app'
 
-logger = Logger.new($stdout)
+class ServiceManager
+  attr_reader :logger, :running
 
-def main_loop
-  logger = Logger.new($stdout)
-  running = true
-
-  Signal.trap("INT") do
-    logger.info("Received INT signal, preparing to shutdown.")
-    running = false
+  def initialize
+    @services = {}
+    @logger = Logger.new($stdout)
+    @running = true
+    setup_signal_traps
   end
 
-  Signal.trap("TERM") do
-    logger.info("Received TERM signal, preparing to shutdown.")
-    running = false
-  end
-
-  begin
+  def boot_system
     Garnet.boot
-    logger.info("App booted successfully.")
-    #   puts "App name: #{Garnet.app.app_name}"
-    #   puts "App container: #{Garnet.app.keys}"
-    #   puts "App services: #{Garnet.services.keys.to_a}"
-    #   puts
-    #
-    #   puts "Simulation container keys: #{Simulation::Service.keys}"
-    #   puts "Ingestion container keys: #{Ingestion::Service.keys}"
-    #   puts "Inventory container keys: #{Inventory::Service.keys}"
-    #   puts "Elastic container keys: #{Elastic::Service.keys}"
+    logger.info('App booted successfully.')
+  end
 
-    logger.info("Services started.")
+  def add_service(key, service)
+    @services[key] = service
+  end
 
-    while running
-      Simulation::Service['actors.simulator'].request(:start)
-      Ingestion::Service['actors.collector'].request(:start)
+  def start_service(key)
+    @services[key].request(:start)
+  end
 
-      break if running == false
-    end
-  rescue StandardError => e
-    logger.error("An error occurred: #{e.message}")
-    Garner::ExceptionManager.handle(e)
-  ensure
+  def run_all
+    @services.each_key { |service| start_service(service) }
+  end
+
+  def shutdown
     Garnet.shutdown
-    logger.info("App shut down.")
+    logger.info('App shut down.')
+  end
+
+  protected
+
+  def handle_error(error)
+    logger.error("An error occurred: #{error.message}")
+    Garner::ExceptionManager.handle(error)
+  end
+
+  def setup_signal_traps
+    Signal.trap('INT') do
+      p 'Received INT signal, preparing to shutdown.'
+      @running = false
+    end
+
+    Signal.trap('TERM') do
+      p 'Received TERM signal, preparing to shutdown.'
+      @running = false
+    end
   end
 end
 
-if __FILE__ == $0
-  main_loop
+def main_event_loop(manager)
+  while manager.running
+    manager.run_all
+    sleep 20
+    break unless manager.running
+  end
+  manager.shutdown
+end
+
+if __FILE__ == $PROGRAM_NAME
+  manager = ServiceManager.new
+  manager.boot_system
+  manager.add_service(:simulation, Simulation::Service['actors.simulator'])
+  manager.add_service(:ingestion, Ingestion::Service['actors.collector'])
+  main_event_loop(manager)
 end
