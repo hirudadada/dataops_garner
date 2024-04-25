@@ -13,6 +13,7 @@ docker-compose*.yml
 # Development and build artifacts
 .bundle
 vendor/
+!vendor/bundle/gems/local
 **/out
 .yardoc
 _yardoc
@@ -36,7 +37,6 @@ make.env/
 
 # Ignore dependency directories
 node_modules/
-/vendor/bundle/
 
 # Ignore compiled assets
 public/assets/

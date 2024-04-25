@@ -74,3 +74,5 @@ LABEL org.opencontainers.image.title=${project}-${app} \
     \
     org.metasync.ruby.version=${ruby_version} \
     org.metasync.alpine.version=${alpine_version}
+
+# CMD ["bundle", "exec", "ruby", "main.rb"]
