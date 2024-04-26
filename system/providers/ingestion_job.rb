@@ -8,10 +8,10 @@ module Ingestion
       config = Garnet.app['settings'].to_h
                      .select { |k, _| k.to_s.start_with?('ingestion_job') }
                      .transform_keys { |k| k.to_s.sub('ingestion_job_', '').to_sym }
-      register(:jobs, Ingestion::Job.new(**config).freeze)
+      register(:job, Ingestion::Job.new(**config))
     rescue StandardError
-      Garnet.app[:logger].error("Job configuration error: #{config.failure}")
-      raise Garnet::InvalidConfigurationError, config.failure
+      Garnet.app[:logger].error("Job configuration error: #{e.message}")
+      raise Garner::InvalidConfigurationError, cause: e
     end
   end
 end

@@ -2,6 +2,7 @@
 
 module Garner
   App.register_provider :persistence, source: :persistence, from: :garnet do
+    # config.name = target['settings'].db_name
     config.db_user = target['settings'].db_user
     config.db_password = target['settings'].db_password
     config.database_url = target['settings'].database_url
