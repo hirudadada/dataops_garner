@@ -17,8 +17,7 @@ module Garner
         service_name: target['settings'].service_name,
         server_url: target['settings'].apm_server_url,
         secret_token: target['settings'].apm_secret_token,
-        logger: target['logger'],
-        filter_exception_types: ['Elastic::CustomError']
+        logger: target['logger']
       }
 
       agent = ElasticAPM.start(config)
