@@ -4,20 +4,18 @@ services:
   # For development only
   app:
     depends_on:
-      app.db1:
+      app.db:
         condition: service_healthy
-      # app.db2:
-      #   condition: service_healthy
       apm:
         condition: service_healthy
     image: ${DEV_IMAGE}
     env_file:
       - env/cipher.env
       - env/job.env
-      # - env/database.env
-      # - env/secret.env
-      - env/databases.env
-      - env/secrets.env
+      - env/database.env
+      - env/secret.env
+      # - env/databases.env
+      # - env/secrets.env
       - env/agent.env
     working_dir: ${APP_HOME}
     volumes:
