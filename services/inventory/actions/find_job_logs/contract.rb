@@ -5,7 +5,6 @@ module Inventory
     class FindJobLogs
       class Contract < Garnet::Contract
         schema do
-          required(:job)
           required(:limit)
         end
       end

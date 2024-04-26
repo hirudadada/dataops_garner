@@ -4,9 +4,7 @@ module Inventory
   module Operations
     class CreateJobLogs < Inventory::Operation
       include Garnet::Utils::PrettyPrint
-      def call(job_logs:, job:)
-        super(job:)
-
+      def call(job_logs)
         Sync do
           job_logs_repo.transaction do
             job_logs.each do |job_log|

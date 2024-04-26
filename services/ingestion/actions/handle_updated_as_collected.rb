@@ -3,13 +3,11 @@
 module Ingestion
   module Actions
     # Complete Slice
-    class HandleUpdatedAsCollected < Ingestion::Actions::NextBatch
+    class HandleUpdatedAsCollected < Ingestion::Action
       protected
 
       # rubocop:disable Style/MultilineBlockChain
       def handle(params)
-        super(job: params[:request][:data][:job])
-
         slice = params[:request][:data][:slice]
         job_logs = params[:request][:data][:job_logs]
         params[:result].fmap do |_updated_job_logs|

@@ -3,9 +3,7 @@
 module Inventory
   module Operations
     class FindJobLogs < Inventory::Operation
-      def call(limit:, job:)
-        super(job:)
-
+      def call(limit)
         Sync do
           job_logs_repo.find_collectable(limit:)
         end

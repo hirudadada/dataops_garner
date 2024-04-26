@@ -2,7 +2,7 @@
 
 module Inventory
   module Repositories
-    class JobStepLogsRepo < ROM::Repository[:job_step_logs]
+    class JobStepLogsRepo < Garner::Repository[:job_step_logs]
       commands :create
 
       def find_by_job_log_ids(job_log_ids)
