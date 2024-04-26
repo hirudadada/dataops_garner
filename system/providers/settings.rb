@@ -15,6 +15,7 @@ module Garner
       setting :log_level, default: 'info', constructor: Types::String.constrained(filled: true)
       setting :log_formatter, default: 'string', constructor: Types::String.constrained(filled: true)
 
+      setting :db_name, constructor: Types::String.constrained(filled: true)
       setting :db_user, constructor: Types::String.constrained(filled: true)
       setting :db_password, constructor: Types::String.constrained(filled: true)
       setting :database_url, constructor: Types::String.constrained(filled: true)
@@ -36,7 +37,7 @@ module Garner
       setting :simulation_job_batch_wait, default: 20, constructor: Types::Optional::Coercible::Float.constrained(gteq: 0.1)
       setting :simulation_job_iterations, default: 3, constructor: Types::Optional::Coercible::Integer.constrained(gteq: 1)
 
-      setting :ingestion_job_name, default: 'ingestion_job', constructor: Types::String.constrained(filled: true)
+      setting :ingestion_job_name, default: 'ingestion_job', constructor: Types::Optional::String
       # Opt this env out if you want the job to run endlessly.
       setting :ingestion_job_max_batches, default: Float::INFINITY,
                                           constructor: Types::Optional::Coercible::Float.constrained(gteq: 1)
