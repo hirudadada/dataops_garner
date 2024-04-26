@@ -4,22 +4,11 @@ metadata:
   name: db-config
   namespace: garner
 data:
-  # Optionally, if a `DB__*__DB_SERVICE` configuration is **NOT** provided
-  # The part marked by `*` will be used as the identifier instead.
-  DB__APP_DB1__DB_SERVICE: app_db1
-  DB__APP_DB1__DB_NAME: dataops_garner
-  DB__APP_DB1__DATABASE_URL: tinytds://app.db1/dataops_garner?textsize=1024000&timeout=500
-  DB__APP_DB1__ENABLE_SQL_LOG: "false"
-  DB__APP_DB1__USE_NAMED_SCHEMA: "false"
+  SERVICE_NAME: data_demo-dataops_garner
+  DB_NAME: dataops_garner
+  DATABASE_URL: tinytds://app.db/dataops_garner?textsize=1024000&timeout=500
+  ENABLE_SQL_LOG: "false"
+  USE_NAMED_SCHEMA: "false"
+  DB_USER: user1
 
-  DB__APP_DB2__DB_NAME: dataops_garner
-  DB__APP_DB2__DATABASE_URL: tinytds://app.db2/dataops_garner?textsize=1024000&timeout=500
-  DB__APP_DB2__ENABLE_SQL_LOG: "true"
-  DB__APP_DB2__USE_NAMED_SCHEMA: "false"
-
-  # DB__APP_DB3__DB_NAME: dataops_garner
-  # DB__APP_DB3__ENABLE_SQL_LOG: "true"
-  # DB__APP_DB3__DATABASE_URL: tinytds://app.db3/dataops_garner?textsize=1024000&timeout=500
-  # DB__APP_DB3__ENABLE_SQL_LOG: "true"
-  # DB__APP_DB3__USE_NAMED_SCHEMA: "false"
-
+  APM_SERVER_URL: http://apm:8200
