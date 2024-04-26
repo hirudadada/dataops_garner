@@ -14,7 +14,7 @@ module Garner
 
     start do
       config = {
-        service_name: target['settings'].db_name,
+        service_name: target['settings'].service_name,
         server_url: target['settings'].apm_server_url,
         secret_token: target['settings'].apm_secret_token,
         logger: target['logger'],
