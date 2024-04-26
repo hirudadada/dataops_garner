@@ -2,11 +2,10 @@
 
 module Ingestion
   module Actions
-    class HandleFetchedJobLogs < Ingestion::Actions::NextBatch
+    class HandleFetchedJobLogs < Ingestion::Action
       include Deps['messages.submit_to_elastic_message']
 
       def handle(params)
-        super(job: params[:request][:data][:job])
         result = params[:result]
 
         result.fmap { |job_logs| handle_fetched_jobs(job_logs) }.or { |error| handle_error(error) }
@@ -35,7 +34,7 @@ module Ingestion
         slices.each_with_index do |slice, i|
           slice_name = job.slice_name(i)
           job.fetched[slice_name] = slice
-          submit_to_elastic_message.deliver!(job:, slice: slice_name, job_logs: slice)
+          submit_to_elastic_message.deliver!(slice: slice_name, job_logs: slice)
         end
       end
 

@@ -8,7 +8,7 @@ module Ingestion
 
     DEFAULT_BATCH_WAIT = 15
 
-    option :name, default: proc { 'ingestion_job' }
+    option :name
     option :batch_wait, default: proc { DEFAULT_BATCH_WAIT }
     option :batch_size
     option :slice_size

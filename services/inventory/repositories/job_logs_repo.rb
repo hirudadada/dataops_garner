@@ -2,7 +2,7 @@
 
 module Inventory
   module Repositories
-    class JobLogsRepo < ROM::Repository[:job_logs]
+    class JobLogsRepo < Garner::Repository[:job_logs]
       include Deps['repositories.job_step_logs_repo']
 
       def create(job_log)

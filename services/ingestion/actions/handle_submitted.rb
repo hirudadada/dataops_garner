@@ -3,15 +3,13 @@
 module Ingestion
   module Actions
     # Complete Job Logs
-    class HandleSubmitted < Ingestion::Actions::NextBatch
+    class HandleSubmitted < Ingestion::Action
       include Deps['messages.complete_job_logs_message']
 
       protected
 
       # rubocop:disable Style/MultilineBlockChain
       def handle(params) # rubocop:disable Metrics/AbcSize
-        super(job: params[:request][:data][:job])
-
         slice = params[:request][:data][:slice]
         job_logs = params[:request][:data][:job_logs]
         params[:result].fmap do |_|
@@ -28,7 +26,7 @@ module Ingestion
         job_logs.each do |job_log|
           job.submitted[job_log.id] = job_log
         end
-        complete_job_logs_message.deliver!(job:, slice:, job_logs:)
+        complete_job_logs_message.deliver!(slice:, job_logs:)
       end
 
       def fail_job_logs_submission(slice, job_logs)

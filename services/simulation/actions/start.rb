@@ -4,13 +4,13 @@ module Simulation
   module Actions
     # the start action to simulate job_logs
     class Start < Simulation::Action
-      include Deps['simulation_jobs']
+      include Deps['jobs']
       include Deps['messages.run_next_message']
 
       protected
 
       def handle(_params)
-        simulation_jobs.each { |job| start_job(job) }
+        jobs.each { |job| start_job(job) }
       end
 
       def start_job(job)
