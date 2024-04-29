@@ -25,10 +25,14 @@ module Simulation
     protected
 
     def render_job_log
-      job_log = { name: @name, job_step_logs: [] }
-      job_log[:started_at] = Time.now
+      job_log = {
+        name: @name || 'Default Job Name',
+        job_step_logs: [],
+        started_at: Time.now.utc
+      }
+
       render_step_logs(job_log)
-      job_log[:ended_at] = Time.now
+      job_log[:ended_at] = Time.now.utc
       job_log
     end
 
@@ -38,11 +42,16 @@ module Simulation
       end
     end
 
-    def render_step_log(step)
-      step_log = { name: "step #{step}-time #{Time.now}" }
-      step_log[:started_at] = Time.now
+    def render_step_log(step) # rubocop:disable Metrics/MethodLength
+      step_log = {
+        name: "step #{step} - time #{Time.now}",
+        ended_at: nil # Default nil which will be updated in ensure block
+      }
+
+      # Simulate processing with potential errors
       raise StandardError, "Random error hit for #{@name}" if @error_rate > Random.rand
 
+      # Simulate processing time
       sleep Random.rand(max_step_duration)
       step_log
     rescue StandardError => e
@@ -50,6 +59,7 @@ module Simulation
       step_log
     ensure
       step_log[:ended_at] = Time.now
+      step_log
     end
   end
 end
