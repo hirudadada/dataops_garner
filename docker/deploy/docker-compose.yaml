@@ -9,6 +9,8 @@ services:
       apm:
         condition: service_healthy
     image: ${DEV_IMAGE}
+    environment:
+      - APP_ENV=development
     env_file:
       - env/cipher.env
       - env/job.env
