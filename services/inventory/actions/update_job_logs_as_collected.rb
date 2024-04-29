@@ -8,7 +8,7 @@ module Inventory
 
       protected
 
-      def handle(params) = update_job_logs_as_collected.call(job_ids: params[:job_logs].map(&:id))
+      def handle(params) = update_job_logs_as_collected.call(job_ids: params[:job_logs].map { |job_log| job_log[:id] })
     end
   end
 end

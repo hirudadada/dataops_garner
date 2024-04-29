@@ -11,7 +11,7 @@ module Inventory
             required(:ended_at).filled(:time)
             required(:job_step_logs).array(:hash) do
               required(:name).filled(:string)
-              required(:started_at).filled(:time)
+              # required(:started_at).filled(:time)
               required(:ended_at).filled(:time)
               optional(:error).filled(:string)
             end

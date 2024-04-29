@@ -3,7 +3,6 @@
 module Inventory
   module Repositories
     class JobLogsRepo < Garner::Repository[:job_logs]
-      include Deps['repositories.job_step_logs_repo']
 
       def create(job_log)
         base_query.command(:create).call(job_log)
@@ -11,9 +10,9 @@ module Inventory
 
       def find_collectable(limit:)
         job_logs
-          .where(collected: false)
-          .exclude(ended_at: nil)
-          .order { started_at.asc }
+          .where(logs_collected: false)
+          .exclude(etl_completetime: nil)
+          .order { etl_starttime.asc }
           .limit(limit)
           .combine(:job_step_logs) # Include job_step_logs in
           .to_a
@@ -21,9 +20,9 @@ module Inventory
 
       def find_collectable_job_logs(limit:)
         job_logs
-          .where(collected: false)
-          .exclude(ended_at: nil)
-          .order { started_at.asc }
+          .where(logs_collected: false)
+          .exclude(etl_completetime: nil)
+          .order { etl_starttime.asc }
           .limit(limit)
           .to_a
       end
@@ -42,11 +41,13 @@ module Inventory
       # end
       #
       def find_by_ids(job_ids)
-        base_query.where(id: job_ids).to_a
+        base_query
+          .where(joblogid: job_ids)
+          .to_a
       end
 
       def update_as_collected(job_ids)
-        job_logs.where(id: job_ids).command(:update).call(collected: true)
+        job_logs.where(joblogid: job_ids).command(:update).call(logs_collected: true)
       end
 
       protected
