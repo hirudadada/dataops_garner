@@ -71,7 +71,7 @@ end
 def main_event_loop(manager)
   while manager.running
     manager.run_all
-    sleep 20
+    sleep ENV.fetch('SLEEP_INTERVAL', 5).to_i
     break unless manager.running
   end
   manager.shutdown
