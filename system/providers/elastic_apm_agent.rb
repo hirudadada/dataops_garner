@@ -2,11 +2,11 @@
 
 require 'elastic-apm'
 
-require_relative '../../lib/elastic_apm_agent'
+require_relative '../../lib/utils/elastic_apm_agent'
 
 module Garner
   App.register_provider(:elastic_apm_agent) do
-    include ElasticApmAgent
+    include Utils::ElasticApmAgent
 
     prepare do
       require 'elastic-apm'

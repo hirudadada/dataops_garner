@@ -20,7 +20,7 @@ module Garner
                      end
 
     # Set the log level if valid, otherwise default to 'info'
-    if allowed_levels.include?(log_level) || log_level == :debug
+    if allowed_levels.include?(log_level) || log_level == :debug # TODO: remove debug
       config.log_level = log_level
     else
       puts "Invalid log level for #{app_env} environment: #{log_level}"
