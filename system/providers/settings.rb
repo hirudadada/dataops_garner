@@ -48,6 +48,8 @@ module Garner
 
       setting :simulator_pool_size, default: 3, constructor: Types::Coercible::Integer.constrained(gteq: 1)
       setting :collector_pool_size, default: 3, constructor: Types::Coercible::Integer.constrained(gteq: 1)
+
+      setting :sleep_interval, default: 10, constructor: Types::Coercible::Integer.constrained(gteq: 1)
     end
   end
 end
