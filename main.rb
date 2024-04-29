@@ -17,15 +17,17 @@ class ServiceManager
     setup_signal_traps
   end
 
-  def boot_system
+  def boot_system # rubocop:disable Metrics/AbcSize
     Garnet.boot
-    # logger.debug("App name: #{Garnet.app.app_name}")
-    # logger.debug("App container: #{Garnet.app.keys}")
-    # logger.debug("App services: #{Garnet.services.keys.to_a}")
-    # logger.debug("Simulation container keys: #{Simulation::Service.keys}")
-    # logger.debug("Ingestion container keys: #{Ingestion::Service.keys}")
-    # logger.debug("Inventory container keys: #{Inventory::Service.keys}")
-    # logger.debug("Elastic container keys: #{Elastic::Service.keys}")
+    logger.debug("App name: #{Garnet.app.app_name}")
+    logger.debug("App container: #{Garnet.app.keys}")
+    logger.debug("App services: #{Garnet.services.keys.to_a}")
+    logger.debug("Simulation container keys: #{Simulation::Service.keys}")
+    logger.debug("Ingestion container keys: #{Ingestion::Service.keys}")
+    logger.debug("Inventory container keys: #{Inventory::Service.keys}")
+    logger.debug("Elastic container keys: #{Elastic::Service.keys}")
+    logger.debug("Simulation Jobs: #{Simulation::Service['jobs']}")
+    # logger.debug("Repository rom configurations: #{Garnet.app['persistence.config'].to_s}")
     logger.info('App booted successfully.')
   end
 
