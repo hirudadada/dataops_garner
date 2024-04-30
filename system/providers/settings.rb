@@ -26,7 +26,7 @@ module Garner
 
       setting :apm_server_url, constructor: Types::String.constrained(filled: true)
       setting :apm_secret_token, constructor: Types::String.constrained(filled: true)
-      setting :apm_secret_encrypted, constructor: Types::Optional::String
+      setting :apm_secret_token_encrypted, constructor: Types::Optional::String
 
       setting :simulation_job_name, default: 'simulation_job', constructor: Types::Optional::String
       setting :simulation_job_steps, default: 5, constructor: Types::Optional::Coercible::Integer.constrained(gteq: 1)

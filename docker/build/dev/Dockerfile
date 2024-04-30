@@ -2,6 +2,9 @@ ARG base_image_repo=docker.io/ruby
 ARG base_image_tag
 FROM ${base_image_repo}:${base_image_tag}
 
+ARG env_home=/home/env
+ENV ENV_HOME=${env_home}
+
 ARG app_home=/home/app
 ENV APP_HOME=${app_home}
 ENV HISTFILE=${APP_HOME}/.bash_history
