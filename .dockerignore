@@ -30,6 +30,9 @@ log/
 # Ignore specific directories
 deploy/
 make.env/
+gitops/
+.cipher
+!.cipher/*.pub
 
 # Ignore scripts that may contain sensitive information
 **/scripts/
