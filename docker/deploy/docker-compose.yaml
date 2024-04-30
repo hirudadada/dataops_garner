@@ -2,9 +2,9 @@ version: "3.6"
 
 services:
   # For development only
-  app:
+  dev:
     depends_on:
-      app.db:
+      dev.db:
         condition: service_healthy
       apm:
         condition: service_healthy

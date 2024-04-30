@@ -53,25 +53,25 @@ restart.apm:
 logs.apm:
 	@${CONTAINER_CLI} compose logs apm -f
 
-.PHONY: up.app.db shell.app.db.restart.app.db logs.app.db
-up.app.db:
-	@${CONTAINER_CLI} compose up app.db -d
-shell.app.db:
-	@${CONTAINER_CLI} compose exec -it app.db /bin/sh
-restart.app.db:
-	@${CONTAINER_CLI} compose restart app.db
-logs.app.db:
-	@${CONTAINER_CLI} compose logs app.db -f
+.PHONY: up.dev.db shell.dev.db.restart.dev.db logs.dev.db
+up.dev.db:
+	@${CONTAINER_CLI} compose up dev.db -d
+shell.dev.db:
+	@${CONTAINER_CLI} compose exec -it dev.db /bin/sh
+restart.dev.db:
+	@${CONTAINER_CLI} compose restart dev.db
+logs.dev.db:
+	@${CONTAINER_CLI} compose logs dev.db -f
 
-.PHONY: up.app shell.app restart.app logs.app
-up.app:
-	@${CONTAINER_CLI} compose up app -d
-shell.app:
-	@${CONTAINER_CLI} compose exec -it app /bin/sh
-restart.app:
-	@${CONTAINER_CLI} compose restart app
-logs.app:
-	@${CONTAINER_CLI} compose logs app -f
+.PHONY: up.dev shell.dev.restart.dev logs.dev
+up.dev:
+	@${CONTAINER_CLI} compose up dev -d
+shell.dev:
+	@${CONTAINER_CLI} compose exec dev /bin/sh
+restart.dev:
+	@${CONTAINER_CLI} compose restart dev
+logs.dev:
+	@${CONTAINER_CLI} compose logs dev -f
 
 .PHONY: prep.elastic
 prep.elastic:
