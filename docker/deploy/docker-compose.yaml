@@ -13,17 +13,17 @@ services:
       - APP_ENV=development
     env_file:
       - env/cipher.env
-      - env/job.env
       - env/database.env
       - env/secret.env
-      # - env/databases.env
-      # - env/secrets.env
       - env/agent.env
+      - env/jobs/ingestion_job.env
+      - env/jobs/simulation_job.env
     working_dir: ${APP_HOME}
     volumes:
       - ../../:${APP_HOME}
       - ../../vendor/bundle:/usr/local/bundle
-      - ../../../garnet:/gems/garnet
+      - ./env/jobs:${ENV_HOME}/jobs
+      # - ../../../garnet:/gems/garnet
     entrypoint: /bin/sh
     stdin_open: true
     tty: true

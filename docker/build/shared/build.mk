@@ -5,6 +5,7 @@ build:
 		--build-arg project=${PROJECT_NAME} \
 		--build-arg app=${APP_NAME} \
 		--build-arg app_home=${APP_HOME} \
+		--build-arg env_home=${ENV_HOME} \
 		--build-arg version=${APP_VERSION} \
 		--build-arg release_tag=${RELEASE_TAG} \
 		--build-arg build_number=${BUILD_NUMBER} \
