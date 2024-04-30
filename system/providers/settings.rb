@@ -11,20 +11,22 @@ module Garner
       setting :app_env, default: :production, constructor: Types::Symbol
         .constructor { |value| value.to_s.downcase.to_sym }
         .enum(:development, :test, :production)
-      setting :service_name, constructor: Types::String.constrained(filled: true)
 
       setting :log_level, default: 'debug', constructor: Types::String.constrained(filled: true)
       setting :log_formatter, default: 'string', constructor: Types::String.constrained(filled: true)
 
+      setting :db_host, constructor: Types::String.constrained(filled: true)
       setting :db_name, constructor: Types::String.constrained(filled: true)
       setting :db_user, constructor: Types::String.constrained(filled: true)
       setting :db_password, constructor: Types::String.constrained(filled: true)
+      setting :db_password_encrypted, constructor: Types::Optional::String
       setting :database_url, constructor: Types::String.constrained(filled: true)
       setting :enable_sql_log, default: false, constructor: Types::Params::Bool.constrained(filled: true)
       setting :use_named_schema, default: false, constructor: Types::Params::Bool.constrained(filled: true)
 
       setting :apm_server_url, constructor: Types::String.constrained(filled: true)
       setting :apm_secret_token, constructor: Types::String.constrained(filled: true)
+      setting :apm_secret_encrypted, constructor: Types::Optional::String
 
       setting :simulation_job_name, default: 'simulation_job', constructor: Types::Optional::String
       setting :simulation_job_steps, default: 5, constructor: Types::Optional::Coercible::Integer.constrained(gteq: 1)
