@@ -23,6 +23,7 @@ services:
       - ../../:${APP_HOME}
       - ../../vendor/bundle:/usr/local/bundle
       - ./env/jobs:${ENV_HOME}/jobs
+      - ./.data/certs:${DEV_APM_SERVER_CA_CERT}
       # - ../../../garnet:/gems/garnet
       - ../build/src:${SCHEMATIC_HOME}
     entrypoint: /bin/sh
