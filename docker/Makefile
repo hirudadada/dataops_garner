@@ -56,6 +56,8 @@ logs.apm:
 .PHONY: up.dev.db shell.dev.db.restart.dev.db logs.dev.db
 up.dev.db:
 	@${CONTAINER_CLI} compose up dev.db -d
+down.dev.db:
+	@${CONTAINER_CLI} compose up dev.db -d
 shell.dev.db:
 	@${CONTAINER_CLI} compose exec -it dev.db /bin/sh
 restart.dev.db:

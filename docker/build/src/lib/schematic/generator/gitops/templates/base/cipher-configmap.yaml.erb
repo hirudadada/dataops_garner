@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: <%= app %>-cipher-configmap
+data:
+  GARNET_CIPHER_ALGORITHM: <%= ENV['GARNET_CIPHER_ALGORITHM'] %>
+  GARNET_CIPHER_KEY_LENGTH: "<%= ENV['GARNET_CIPHER_KEY_LENGTH'] %>"
+  GARNET_CIPHER_ISSUER: <%= ENV['GARNET_CIPHER_ISSUER'] %>

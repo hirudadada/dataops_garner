@@ -24,6 +24,7 @@ services:
       - ../../vendor/bundle:/usr/local/bundle
       - ./env/jobs:${ENV_HOME}/jobs
       # - ../../../garnet:/gems/garnet
+      - ../build/src:${SCHEMATIC_HOME}
     entrypoint: /bin/sh
     stdin_open: true
     tty: true
