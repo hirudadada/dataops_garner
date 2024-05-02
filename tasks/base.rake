@@ -7,7 +7,7 @@ namespace :app do
     Dotenv.load(*Dir["#{ENV['ENV_HOME']}/**/*.env"]) if Dir.exist?(ENV['ENV_HOME'])
     puts "Environment settings are loaded successfully"
   end
-  
+
   desc "Show application version"
   task :version do
     if ENV['APP_VERSION'].nil?
@@ -16,19 +16,43 @@ namespace :app do
       puts ENV['APP_VERSION']
     end
   end
-end
 
-namespace :schematic do
-  desc "Show Schematic version"
-  task :version do
-    puts "Schematic version: #{ENV['GARNET_VERSION']}"
+  desc "Run the all services"
+  task :ingest do
+    require_relative '../main'
+
+    manager = ServiceManager.new
+    manager.boot_system
+    manager.add_service(:simulation, Simulation::Service['actors.simulator'])
+    manager.add_service(:ingestion, Ingestion::Service['actors.collector'])
+    main_event_loop(manager)
+  end
+
+  desc "Run the ingestion service"
+  task :ingest do
+    require_relative '../main'
+
+    manager = ServiceManager.new
+    manager.boot_system
+    manager.add_service(:simulation, Simulation::Service['actors.simulator'])
+    manager.add_service(:ingestion, Ingestion::Service['actors.collector'])
+    main_event_loop(manager)
+  end
+
+  desc "Run the simulation service"
+  task :simulate do
+    require_relative '../main'
+
+    manager = ServiceManager.new
+    manager.boot_system
+    manager.add_service(:simulation, Simulation::Service['actors.simulator'])
+    main_event_loop(manager)
   end
 end
 
 desc "Show version info"
 task :version do
   Rake::Task['app:version'].invoke
-  Rake::Task['schematic:version'].invoke
 end
 
 desc "Perform configuration checks"
@@ -36,6 +60,8 @@ task :check do
   puts "Version check:"
   Rake::Task['version'].invoke
   puts
-  puts "Database connection check:"
-  Rake::Task['db:test'].invoke
+  puts "Elastic APM connection check"
+  Rake::Task['elastic:check_connection'].invoke
+  # puts "Database connection check:"
+  # Rake::Task['db:test'].invoke
 end
