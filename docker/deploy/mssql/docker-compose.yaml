@@ -11,7 +11,7 @@ services:
     volumes:
       - ./.data/dev_${DEV_DB_HOST}_mssql:/var/opt/mssql
       - ./mssql/scripts_${DEV_DB_HOST}:${DB_HOME}:ro
-    command: ["./setup-db.sh"]
+    command: ["./entrypoint.sh"]
     ports:
       - "${DEV_DB_PORT}:1433"
     healthcheck:
