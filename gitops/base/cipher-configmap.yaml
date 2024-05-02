@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: garner-cipher-configmap
+data:
+  GARNET_CIPHER_ALGORITHM: RS256
+  GARNET_CIPHER_KEY_LENGTH: "4096"
+  GARNET_CIPHER_ISSUER: garnet
+
