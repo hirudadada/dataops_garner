@@ -1,16 +1,10 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/schematic/cipher'
-
 module Garner
   App.register_provider :persistence, source: :persistence, from: :garnet do
     # config.name = target['settings'].db_name
     config.db_user = target['settings'].db_user
-    if target['settings'].db_password_encrypted.nil? || target['settings'].db_password_encrypted.empty?
-      config.db_password = target['settings'].db_password
-    else
-      config.db_password = Schematic::Cipher.new.decrypt(target['settings'].db_password_encrypted)
-    end
+    config.db_password = target['settings'].db_password_encrypted.to_s.strip.empty? ? target['settings'].db_password : Schematic::Cipher.new.decrypt(target['settings'].db_password_encrypted)
     config.database_url = target['settings'].database_url
     config.enable_sql_log = target['settings'].enable_sql_log
     config.use_named_schema = target['settings'].use_named_schema
