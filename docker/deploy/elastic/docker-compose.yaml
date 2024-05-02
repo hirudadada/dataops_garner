@@ -2,19 +2,19 @@
 
 version: '3.8'
 
-volumes:
- certs:
-   driver: local
- es01:
-   driver: local
- kibanadata:
-   driver: local
+# volumes:
+#  certs:
+#    driver: local
+#  es01:
+#    driver: local
+#  kibanadata:
+#    driver: local
 
 services:
   setup:
     image: ${DEV_ES_IMAGE}
     volumes:
-      - certs:/usr/share/elasticsearch/config/certs:z
+      - ./.data/certs:/usr/share/elasticsearch/config/certs:z
     user: "0"
     command: >
       bash -c '
@@ -52,6 +52,12 @@ services:
           "      - localhost\n"\
           "    ip:\n"\
           "      - 127.0.0.1\n"\
+          "  - name: ${DEV_APP_SERVICE}\n"\
+          "    dns:\n"\
+          "      - ${DEV_APP_SERVICE}\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
           > config/certs/instances.yml;
           bin/elasticsearch-certutil cert --silent --pem -out config/certs/certs.zip --in config/certs/instances.yml --ca-cert config/certs/ca/ca.crt --ca-key config/certs/ca/ca.key;
           unzip config/certs/certs.zip -d config/certs;
@@ -79,8 +85,8 @@ services:
         condition: service_healthy
     image: ${DEV_ES_IMAGE}
     volumes:
-      - certs:/usr/share/elasticsearch/config/certs
-      - es01:/usr/share/elasticsearch/data
+      - ./.data/certs:/usr/share/elasticsearch/config/certs
+      - ./.data/es01:/usr/share/elasticsearch/data
     ports:
       - ${DEV_ES_PORT}:9200
     environment:
@@ -124,8 +130,8 @@ services:
         condition: service_healthy
     image: ${DEV_KBN_IMAGE}
     volumes:
-      - certs:/usr/share/kibana/config/certs
-      - kibanadata:/usr/share/kibana/data
+      - ./.data/certs:/usr/share/kibana/config/certs
+      - ./.data/kibanadata:/usr/share/kibana/data
       - ./elastic/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     ports:
       - ${DEV_KBN_PORT}:5601
@@ -167,7 +173,7 @@ services:
         condition: service_healthy
     image: ${DEV_APM_IMAGE}
     volumes:
-      - certs:/certs:z
+      - ./.data/certs:/certs:z
     ports:
       - ${DEV_FLEET_PORT}:8220
       - ${DEV_APM_PORT}:8200
@@ -179,7 +185,7 @@ services:
       - FLEET_SERVER_ENABLE=1
       - KIBANA_FLEET_SETUP=1
       - KIBANA_HOST=${DEV_KBN_HOST}
-      - FLEET_URL=https://${DEV_APM_SERVICE}:${DEV_FLEET_PORT}
+      - FLEET_URL=${DEV_FLEET_HOST}
       - FLEET_SERVER_ELASTICSEARCH_HOST=${DEV_ES_HOST}
       - FLEET_CA=/certs/ca/ca.crt
       - KIBANA_FLEET_USERNAME=${DEV_ES_USERNAME}
@@ -189,7 +195,7 @@ services:
       - FLEET_SERVER_ELASTICSEARCH_CA=/certs/ca/ca.crt
       - KIBANA_FLEET_CA=/certs/ca/ca.crt
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8200"]
+      test: ["CMD-SHELL", "curl -s -I --cacert /certs/ca/ca.crt https://localhost:8200"]
       interval: 10s
       timeout: 5s
       retries: 12

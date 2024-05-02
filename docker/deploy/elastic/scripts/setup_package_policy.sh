@@ -21,7 +21,7 @@ headers=(
 LOCAL_KBN_URL="https://${DEV_LOCAL_URL}:${DEV_KBN_PORT}"
 
 configure_kbn() {
-  MAXTRIES=15
+  MAXTRIES=7
   i=${MAXTRIES}
 
   while [ $i -gt 0 ]; do
