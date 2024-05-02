@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: garner-apm-configmap
+data:
+  APM_SERVER_URL: https://apm:8200
+  APM_SERVER_CA_CERT_FILE: /etc/ssl/certs/ca/ca.crt
+

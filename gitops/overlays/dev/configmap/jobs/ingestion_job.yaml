@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: garner-jobs-ingestion-job-configmap
+data:
+  # Ingestion Job: nil
+  COLLECTOR_POOL_SIZE: "2"
+  INGESTION_JOB_NAME: ingestion_job
+  INGESTION_JOB_BATCH_SIZE: "20"
+  INGESTION_JOB_SLICE_SIZE: "5"
+  INGESTION_JOB_BATCH_WAIT: "20"
+  # Note: opt this out to loop endlessly: nil
+  INGESTION_JOB_MAX_BATCHES: "5"
+  SLEEP_INTERVAL: "20"
+

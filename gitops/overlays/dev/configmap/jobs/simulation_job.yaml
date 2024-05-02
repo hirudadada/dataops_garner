@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: garner-jobs-simulation-job-configmap
+data:
+  # Simulation Job: nil
+  SIMULATOR_POOL_SIZE: "2"
+  SIMULATION_JOB_NAME: simulation_job
+  SIMULATION_JOB_STEPS: "5"
+  SIMULATION_JOB_MAX_STEP_DURATION: "0.1"
+  SIMULATION_JOB_ERROR_RATE: "0.7"
+  SIMULATION_JOB_BATCH_SIZE: "10"
+  SIMULATION_JOB_BATCH_WAIT: "20"
+  SIMULATION_JOB_ITERATIONS: "3"
+  # Note: opt this out to loop endlessly: nil
+  SIMULATION_JOB_MAX_BATCHES: "5"
+
