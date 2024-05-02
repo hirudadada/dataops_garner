@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 ROM::SQL.migration do
-  change do
-    create_table :Job_Details_Log, schema: :DW_ETL_LOG do
+  up do
+    create_table Sequel[:DW_ETL_LOG][:Job_Details_Log] do
       primary_key :StepId, type: :Bignum
-      foreign_key :JobLogId, :Job_Status_Log, type: :Bignum, on_delete: :cascade
+      foreign_key :JobLogId, Sequel[:DW_ETL_LOG][:Job_Status_Log], type: :Bignum, on_delete: :cascade
 
       column :Step, String, size: 255, null: false
       column :Step_Status, String, size: 512, null: true
@@ -17,6 +17,10 @@ ROM::SQL.migration do
         column :Remark, String, text: true, null: true  # Use TEXT for other databases
       end
     end
+  end
+
+  down do
+    drop_table(Sequel[:DW_ETL_LOG][:Job_Details_Log])
   end
 end
 

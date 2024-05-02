@@ -4,7 +4,7 @@ module Garner
   module Persistence
     module Relations
       class JobLogs < ROM::Relation[:sql]
-        schema(:Job_Status_Log, as: :job_logs, infer: false) do
+        schema(:job_logs, infer: false) do
           attribute :joblogid, Types::Integer.meta(primary_key: true), as: :id
           attribute :etl_procedure, Types::String, as: :name
           attribute :etl_parameter, Types::String, as: :parameter
@@ -20,6 +20,10 @@ module Garner
           associations do
             has_many :job_step_logs, foreign_key: :joblogid
           end
+        end
+
+        dataset do
+          from(Sequel[:DW_ETL_LOG][:Job_Status_Log])
         end
       end
     end

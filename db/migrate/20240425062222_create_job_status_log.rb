@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 ROM::SQL.migration do
-  change do
-    create_table :Job_Status_Log, schema: :DW_ETL_LOG do
+  up do
+    create_table Sequel[:DW_ETL_LOG][:Job_Status_Log] do
       primary_key :JobLogId, type: :Bignum
       column :ETL_Procedure, String, size: 255, null: false
       column :ETL_Parameter, String, size: 512, null: true
@@ -17,5 +17,9 @@ ROM::SQL.migration do
 
       index :ETL_CompleteTime
     end
+  end
+
+  down do
+    drop_table(Sequel[:DW_ETL_LOG][:Job_Status_Log])
   end
 end
