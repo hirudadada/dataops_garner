@@ -5,5 +5,6 @@ require 'bundler/setup'
 require 'garnet'
 require 'garnet/rake_task'
 Rake.add_rakelib 'tasks'
+# Rake.add_rakelib '../schematic/tasks'
 
 require_relative 'app'
