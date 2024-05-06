@@ -16,7 +16,7 @@ module Garner
       rescue StandardError => e
         logger.info "Unable to create span, #{e}"
         end_error_span(span, e)
-        raise e
+        raise Elastic::SpanCreationError.new(e)
       ensure
         ElasticAPM.agent.instrumenter.current_spans.delete(span)
         ElasticAPM.agent.enqueue span
@@ -30,7 +30,7 @@ module Garner
       rescue StandardError => e
         logger.info "Unable to create transaction, #{e}"
         end_error_transaction(transaction, ended)
-        raise e
+        raise Elastic::TransactionCreationError.new(e)
       ensure
         ElasticAPM.agent.instrumenter.current_transaction = nil
         ElasticAPM.agent.enqueue transaction
