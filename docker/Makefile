@@ -65,8 +65,10 @@ restart.dev.db:
 logs.dev.db:
 	@${CONTAINER_CLI} compose logs dev.db -f
 
-.PHONY: up.dev shell.dev.restart.dev logs.dev
+.PHONY: up.dev down.dev shell.dev.restart.dev logs.dev
 up.dev:
+	@${CONTAINER_CLI} compose up dev -d
+down.dev:
 	@${CONTAINER_CLI} compose up dev -d
 shell.dev:
 	@${CONTAINER_CLI} compose exec dev /bin/sh
