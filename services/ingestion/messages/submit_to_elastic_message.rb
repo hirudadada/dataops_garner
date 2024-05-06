@@ -3,6 +3,8 @@
 module Ingestion
   module Messages
     class SubmitToElasticMessage < Garnet::Message
+      include Elastic::Deps['actions.intake_job_logs.contract']
+
       from 'ingestion.actors.collector'
       to 'elastic.actors.agent'
       action :intake_job_logs
