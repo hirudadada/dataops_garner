@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: garner-jobs-simulation-job-configmap
 data:
-  # Simulation Job: nil
+  # Simulation Job
   SIMULATOR_POOL_SIZE: "2"
   SIMULATION_JOB_NAME: simulation_job
   SIMULATION_JOB_STEPS: "5"
@@ -12,6 +12,8 @@ data:
   SIMULATION_JOB_BATCH_SIZE: "10"
   SIMULATION_JOB_BATCH_WAIT: "20"
   SIMULATION_JOB_ITERATIONS: "3"
-  # Note: opt this out to loop endlessly: nil
+  # Note: opt this out to loop endlessly
   SIMULATION_JOB_MAX_BATCHES: "5"
 
+  # `test` and `production` environments ignore and disable simulation regardlessly
+  SIMULATION_JOB_ENABLED: "false"
