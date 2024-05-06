@@ -11,5 +11,4 @@ data:
   INGESTION_JOB_BATCH_WAIT: "20"
   # Note: opt this out to loop endlessly: nil
   INGESTION_JOB_MAX_BATCHES: "5"
-  SLEEP_INTERVAL: "20"
 

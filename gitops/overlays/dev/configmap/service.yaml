@@ -7,3 +7,6 @@ data:
   APP_ENV: test
   # # Default
   # APP_ENV: production
+
+
+  SLEEP_INTERVAL: "20"
