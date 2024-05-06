@@ -21,10 +21,10 @@ services:
     working_dir: ${APP_HOME}
     volumes:
       - ../../:${APP_HOME}
-      - ../../vendor/bundle:/usr/local/bundle
+      - ../../vendor/bundle:/usr/local/bundle:z
       - ./env/jobs:${ENV_HOME}/jobs
       - ./.data/certs:${DEV_APM_SERVER_CA_CERT}
-      # - ../../../garnet:/gems/garnet
+      - ../../../garnet:/gems/garnet
       - ../build/src:${SCHEMATIC_HOME}
     entrypoint: /bin/sh
     stdin_open: true

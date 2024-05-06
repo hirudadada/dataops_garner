@@ -196,6 +196,7 @@ services:
       - KIBANA_FLEET_CA=/certs/ca/ca.crt
     healthcheck:
       test: ["CMD-SHELL", "curl -s -I --cacert /certs/ca/ca.crt https://localhost:8200"]
+      # test: ["CMD-SHELL", "curl -s -I http://localhost:8200"]
       interval: 10s
       timeout: 5s
       retries: 12
