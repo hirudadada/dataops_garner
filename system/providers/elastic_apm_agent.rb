@@ -5,6 +5,20 @@ require 'elastic-apm'
 require_relative '../../lib/utils/elastic/check_connection'
 require_relative '../../lib/utils/config'
 
+module Utils::Config
+  def password(encrypted=nil, pure=nil)
+    if encrypted.to_s.strip.empty?
+      pure
+    else
+      password_decrypted(encrypted)
+    end
+  end
+
+  def password_decrypted(encrypted)
+    Garnet::Utils::Cipher.new.decrypt(encrypted)
+  end
+end
+
 module Garner
   App.register_provider(:elastic_apm_agent) do
     include Utils::Config
@@ -20,14 +34,13 @@ module Garner
       config = {
         service_name: "#{format_for_path(target['settings'].db_host)}_#{format_for_path(target['settings'].db_name)}",
         server_url:,
-        secret_token: target['settings'].apm_secret_token_encrypted.to_s.strip.empty? ? target['settings'].apm_secret_token : Schematic::Cipher.new.decrypt(target['settings'].apm_secret_token_encrypted),
+        secret_token: password(target['settings'].apm_secret_token_encrypted, target['settings'].apm_secret_token),
         logger: target['logger']
       }
 
       config[:server_ca_cert_file] = target['settings'].apm_server_ca_cert_file unless target['settings'].apm_server_ca_cert_file.nil?
 
-      agent = ElasticAPM.start(config)
-      agent
+      ElasticAPM.start(config)
     end
 
     stop do
