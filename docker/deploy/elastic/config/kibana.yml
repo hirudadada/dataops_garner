@@ -47,6 +47,7 @@ xpack.fleet.agentPolicies:
                 frozen: false
               - name: api_key_enabled
                 value: true
+                frozen: false
               - name: secret_token
                 value: "${ELASTIC_APM_SECRET_TOKEN}"
                 frozen: false
