@@ -30,12 +30,16 @@ module Garner
     start do
       Utils::Elastic::CheckConnection.new.call(target['settings'].apm_server_url, target['settings'].apm_server_ca_cert_file)
 
-      server_url = target['settings'].apm_server_url
       config = {
-        service_name: "#{format_for_path(target['settings'].db_host)}_#{format_for_path(target['settings'].db_name)}",
-        server_url:,
+        logger: target['logger'],
+        enabled: target['settings'].apm_enabled,
+        server_url: target['settings'].apm_server_url,
+        hostname: target['settings'].app_name,
         secret_token: password(target['settings'].apm_secret_token_encrypted, target['settings'].apm_secret_token),
-        logger: target['logger']
+        service_name: "#{format_for_path(target['settings'].db_host)}_#{format_for_path(target['settings'].db_name)}",
+        environment: target['settings'].app_env,
+        log_level: target['settings'].log_level,
+        pool_size: target['settings'].apm_pool_size,
       }
 
       config[:server_ca_cert_file] = target['settings'].apm_server_ca_cert_file unless target['settings'].apm_server_ca_cert_file.nil?
