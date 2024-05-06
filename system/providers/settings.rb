@@ -21,7 +21,6 @@ module Garner
       setting :db_password_encrypted, constructor: Types::Optional::String
       setting :database_url, constructor: Types::String.constrained(filled: true)
       setting :enable_sql_log, default: false, constructor: Types::Params::Bool.constrained(filled: true)
-      setting :use_named_schema, default: false, constructor: Types::Params::Bool.constrained(filled: true)
 
       # Apm
       setting :apm_server_url, constructor: Types::String.constrained(filled: true)
