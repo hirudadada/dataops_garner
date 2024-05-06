@@ -2,7 +2,36 @@
 
 module Inventory
   module Repositories
+    class Log
+      attr_reader :attributes
+
+      def initialize(attributes)
+        @attributes = attributes
+      end
+
+      def [](name)
+        attributes[name]
+      end
+    end
+
     class JobLogsRepo < Garner::Repository[:job_logs]
+      commands :create, update: :by_pk
+      # def inspect
+      #   # Get the relation registry from the container
+      #   relation_registry = container.relations
+      #
+      #   # Iterate over each registered relation
+      #   relation_registry.each do |relation_name, relation|
+      #     puts "Relation: #{relation_name}"
+      #
+      #     # Get the struct class for the relation
+      #     struct_class = relation.struct_class
+      #
+      #     # Print the struct details
+      #     puts "Struct Class: #{struct_class}"
+      #     puts "-------"
+      #   end
+      # end
 
       def create(job_log)
         base_query.command(:create).call(job_log)
@@ -10,22 +39,20 @@ module Inventory
 
       def find_collectable(limit:)
         job_logs
-          .where(logs_collected: false)
-          .exclude(etl_completetime: nil)
-          .order { etl_starttime.asc }
-          .limit(limit)
-          .combine(:job_step_logs) # Include job_step_logs in
+          .collectable
+          .by_started_at
+          .combine(:job_step_logs)
           .to_a
       end
 
-      def find_collectable_job_logs(limit:)
-        job_logs
-          .where(logs_collected: false)
-          .exclude(etl_completetime: nil)
-          .order { etl_starttime.asc }
-          .limit(limit)
-          .to_a
-      end
+      # job_logs
+      # .where(logs_collected: false)
+      # .exclude(etl_completetime: nil)
+      # .order {:etl_starttime}
+      # .limit(limit)
+      # .combine(:job_step_logs)
+      # .to_a
+      # end
 
       # def find_collectable_with_step_logs(limit:)
       #   collectable_job_logs = find_collectable(limit: limit)

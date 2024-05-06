@@ -6,7 +6,7 @@ module Elastic
       include Deps['apm']
 
       def call(job_logs)
-        return nil unless apm.running?
+        raise Elastic::AgentNotRunningError unless apm.running?
 
         job_logs.each { |log| create_transaction(log) }
       end
