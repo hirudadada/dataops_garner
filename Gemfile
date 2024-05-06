@@ -7,7 +7,8 @@ source 'https://rubygems.org'
 # end
 #
 # gem 'garnet', metasync: 'garnet', branch: 'main'
-gem 'garnet', path: 'vendor/bundle/gems/local/garnet'
+# gem 'garnet', path: 'vendor/bundle/gems/local/garnet'
+gem 'garnet', path: '/gems/garnet'
 
 gem 'dry-configurable', '~>1.1.0'
 gem 'dry-container', '~>0.11.0'
@@ -23,7 +24,7 @@ gem 'yaml', '~> 0.3.0'
 gem 'tiny_tds', '2.1.7'
 
 gem 'async', '~> 2.8'
-gem 'dotenv', '~> 2.8'
+gem 'dotenv', '~> 3.1'
 
 gem 'elastic-apm', '4.7.2'
 
