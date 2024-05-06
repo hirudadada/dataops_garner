@@ -46,6 +46,7 @@ class ServiceManager
   def shutdown
     Garnet.shutdown
     logger.info('App shut down.')
+    @running = false
   end
 
   protected
@@ -69,12 +70,18 @@ class ServiceManager
 end
 
 def main_event_loop(manager)
+  sleep_interval = Garnet.app['settings'].sleep_interval
   while manager.running
-    manager.run_all
-    sleep ENV.fetch('SLEEP_INTERVAL', 5).to_i
-    break unless manager.running
+    begin
+      manager.run_all
+      sleep sleep_interval
+      break unless manager.running
+    rescue Exception => e # rubocop:disable Lint/RescueException
+      Garner::ExceptionManager.handle(e)
+    ensure
+      manager.shutdown
+    end
   end
-  manager.shutdown
 end
 
 if __FILE__ == $PROGRAM_NAME
