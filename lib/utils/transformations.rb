@@ -13,6 +13,7 @@ module Utils
 
   JOB_STEP_LOG_MAPPING = {
     id: :stepid,
+    joblogid: :job_log_id,
     name: :step,
     status: :step_status,
     ended_at: :endtime,
