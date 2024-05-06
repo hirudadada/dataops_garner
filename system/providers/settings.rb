@@ -27,8 +27,11 @@ module Garner
       setting :apm_secret_token, constructor: Types::Optional::String
       setting :apm_secret_token_encrypted, constructor: Types::Optional::String
       setting :apm_server_ca_cert_file, constructor: Types::Optional::String
+      setting :apm_enabled, default: true, constructor: Types::Params::Bool.constrained(filled: true)
+      setting :apm_pool_size, default: 3, constructor: Types::Optional::Coercible::Integer.constrained(gteq: 1)
 
       # Simulation Job
+      setting :simulation_job_enabled, default: false, constructor: Types::Params::Bool.constrained(filled: true)
       setting :simulator_pool_size, default: 3, constructor: Types::Coercible::Integer.constrained(gteq: 1)
       setting :simulation_job_name, default: 'simulation_job', constructor: Types::Optional::String
       setting :simulation_job_steps, default: 5, constructor: Types::Optional::Coercible::Integer.constrained(gteq: 1)
@@ -43,6 +46,7 @@ module Garner
                                            constructor: Types::Optional::Coercible::Float.constrained(gteq: 1)
 
       # Ingestion Job
+      setting :ingestion_job_enabled, default: true, constructor: Types::Params::Bool.constrained(filled: true)
       setting :collector_pool_size, default: 3, constructor: Types::Coercible::Integer.constrained(gteq: 1)
       setting :ingestion_job_name, default: 'ingestion_job', constructor: Types::Optional::String
       setting :ingestion_job_batch_size, default: 20, constructor: Types::Coercible::Integer.constrained(gteq: 1)
