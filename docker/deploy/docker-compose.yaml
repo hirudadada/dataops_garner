@@ -9,13 +9,12 @@ services:
       apm:
         condition: service_healthy
     image: ${DEV_IMAGE}
-    environment:
-      - APP_ENV=development
     env_file:
       - env/cipher.env
+      - env/app.env
       - env/database.env
       - env/secret.env
-      - env/agent.env
+      - env/apm.env
       - env/jobs/ingestion_job.env
       - env/jobs/simulation_job.env
     working_dir: ${APP_HOME}
