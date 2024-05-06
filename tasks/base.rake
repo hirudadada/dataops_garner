@@ -16,9 +16,11 @@ namespace :app do
       puts ENV['APP_VERSION']
     end
   end
+end
 
-  desc "Run the all services"
-  task :ingest do
+namespace :service do
+  desc "Run all services"
+  task :all do
     require_relative '../main'
 
     manager = ServiceManager.new
@@ -34,7 +36,6 @@ namespace :app do
 
     manager = ServiceManager.new
     manager.boot_system
-    manager.add_service(:simulation, Simulation::Service['actors.simulator'])
     manager.add_service(:ingestion, Ingestion::Service['actors.collector'])
     main_event_loop(manager)
   end

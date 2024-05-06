@@ -10,7 +10,7 @@ module Garner
       setting :app_env, default: :production, constructor: Types::Symbol
         .constructor { |value| value.to_s.downcase.to_sym }
         .enum(:development, :test, :production)
-      setting :log_level, default: 'debug', constructor: Types::String.constrained(filled: true)
+      setting :log_level, default: 'info', constructor: Types::String.constrained(filled: true)
       setting :log_formatter, default: 'string', constructor: Types::String.constrained(filled: true)
 
       # DB
