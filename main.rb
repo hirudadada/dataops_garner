@@ -12,6 +12,7 @@ class ServiceManager
 
   def initialize
     @services = {}
+    @enabled_services = {}
     @logger = Logger.new($stdout)
     @running = true
     setup_signal_traps
@@ -29,18 +30,40 @@ class ServiceManager
     logger.debug("Simulation Jobs: #{Simulation::Service['jobs']}")
     # logger.debug("Repository rom configurations: #{Garnet.app['persistence.config'].to_s}")
     logger.info('App booted successfully.')
+    check_environment_settings
+  end
+
+  def check_environment_settings
+    disable_service(:simulation) unless Garnet.app['settings'].simulation_job_enabled
+    disable_service(:ingestion) unless Garnet.app['settings'].ingestion_job_enabled
   end
 
   def add_service(key, service)
     @services[key] = service
+    @enabled_services[key] = true
+  end
+
+  def enable_service(key)
+    @enabled_services[key] = true
+  end
+
+  def disable_service(key)
+    @enabled_services[key] = false
   end
 
   def start_service(key)
+    return unless @enabled_services[key]
     @services[key].request(:start)
   end
 
   def run_all
-    @services.each_key { |service| start_service(service) }
+    @services.each_key do |service|
+      if @enabled_services[service]
+        start_service(service)
+      else
+        logger.info("Service disabled: #{service}")
+      end
+    end
   end
 
   def shutdown
@@ -58,12 +81,12 @@ class ServiceManager
 
   def setup_signal_traps
     Signal.trap('INT') do
-      p 'Received INT signal, preparing to shutdown.'
+      logger.info('Received INT signal, preparing to shutdown.')
       @running = false
     end
 
     Signal.trap('TERM') do
-      p 'Received TERM signal, preparing to shutdown.'
+      logger.info('Received TERM signal, preparing to shutdown.')
       @running = false
     end
   end
@@ -77,9 +100,9 @@ def main_event_loop(manager)
       sleep sleep_interval
       break unless manager.running
     rescue Exception => e # rubocop:disable Lint/RescueException
-      Garner::ExceptionManager.handle(e)
+      manager.handle_error(e)
     ensure
-      manager.shutdown
+      manager.shutdown unless manager.running
     end
   end
 end
@@ -89,5 +112,8 @@ if __FILE__ == $PROGRAM_NAME
   manager.boot_system
   manager.add_service(:simulation, Simulation::Service['actors.simulator'])
   manager.add_service(:ingestion, Ingestion::Service['actors.collector'])
+
+  # manager.disable_service(:simulation)
+
   main_event_loop(manager)
 end
