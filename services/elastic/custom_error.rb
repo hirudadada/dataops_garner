@@ -34,4 +34,8 @@ module Elastic
       ]
     end
   end
+
+  class TransactionCreationError < StandardError; end
+  class SpanCreationError < StandardError; end
+  class AgentNotRunningError < StandardError; end
 end
