@@ -125,10 +125,14 @@ GEM
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
+    psych (5.1.2)
+      stringio
     public_suffix (5.0.5)
     racc (1.7.3)
     rainbow (3.1.1)
     rake (13.2.1)
+    rdoc (6.6.3.1)
+      psych (>= 4.0.0)
     regexp_parser (2.9.0)
     rexml (3.2.6)
     rom (5.3.2)
@@ -179,6 +183,7 @@ GEM
     sequel (5.80.0)
       bigdecimal
     sorbet-runtime (0.5.11369)
+    stringio (3.1.0)
     timers (4.3.5)
     tiny_tds (2.1.7)
     transproc (1.1.1)
@@ -196,6 +201,7 @@ DEPENDENCIES
   garnet!
   pg (~> 1.5)
   pry (~> 0.14.2)
+  rdoc (>= 6.6.3.1)
   rubocop (~> 1.60.2)
   ruby-lsp (~> 0.14.1)
   tiny_tds (~> 2.1)
