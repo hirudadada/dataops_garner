@@ -1,5 +1,5 @@
 build:
-	@${CONTAINER_CLI} build ../../../ -f Dockerfile -t ${IMAGE_NAME} \
+	@${CONTAINER_CLI} build --no-cache ../../../ -f Dockerfile -t ${IMAGE_NAME} \
 		--build-arg base_image_repo=${BASE_IMAGE_REPO} \
 		--build-arg base_image_tag=${BASE_IMAGE_TAG} \
 		--build-arg project=${PROJECT_NAME} \
