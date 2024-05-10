@@ -17,13 +17,14 @@ COPY ../../../Gemfile.lock ${APP_HOME}/Gemfile.lock
 FROM base AS dependencies
 
 RUN apk add --no-cache \
+        git \
         freetds-dev mariadb-dev libpq-dev \
         build-base gcompat && \
         \
         bundle config set without "development test" && \
         bundle install --jobs=3 --retry=3
 
-FROM base
+FROM base AS final
 
 # ENV BUNDLE_PATH=/usr/local/bundle
 # ENV GEM_HOME=$BUNDLE_PATH
