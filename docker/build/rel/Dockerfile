@@ -16,13 +16,14 @@ COPY ../../../ .
 FROM base AS dependencies
 
 RUN apk add --no-cache \
+        git \
         freetds-dev mariadb-dev libpq-dev \
         build-base gcompat && \
         \
         bundle config set without "development test" && \
         bundle install --jobs=3 --retry=3
 
-FROM base
+FROM base AS final
 
 COPY --from=dependencies ${APP_HOME} ${APP_HOME}
 COPY --from=dependencies /usr/local/bundle/ /usr/local/bundle/
