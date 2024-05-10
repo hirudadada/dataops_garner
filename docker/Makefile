@@ -26,11 +26,6 @@ run.dev:
 image.dev:
 	@$(MAKE) -C build/dev image
 
-.PHONY: prune clean
-prune:
-	@${CONTAINER_CLI} image prune -f
-	clean: prune
-
 .PHONY: up down down.rm ps logs
 up:
 	@${CONTAINER_CLI} compose up -d
