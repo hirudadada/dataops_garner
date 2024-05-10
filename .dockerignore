@@ -24,17 +24,18 @@ log/
 
 # Ignore development-specific files
 **/*.env
+**/*.env.*
 .bash_history
 
 # Ignore specific directories
-deploy/
-make.env/
+**/deploy/
+**/make.env/
 gitops/
 .cipher
 !.cipher/*.pub
 
 # Ignore scripts that may contain sensitive information
-**/scripts/
+**/scripts*/
 *.sh
 
 # Ignore dependency directories
