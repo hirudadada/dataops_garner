@@ -11,7 +11,8 @@ RUN apk -U upgrade && \
 
 WORKDIR ${APP_HOME}
 
-COPY ../../../ .
+COPY ../../../Gemfile ${APP_HOME}/Gemfile
+COPY ../../../Gemfile.lock ${APP_HOME}/Gemfile.lock
 
 FROM base AS dependencies
 
@@ -23,6 +24,12 @@ RUN apk add --no-cache \
         bundle install --jobs=3 --retry=3
 
 FROM base
+
+# ENV BUNDLE_PATH=/usr/local/bundle
+# ENV GEM_HOME=$BUNDLE_PATH
+# ENV BUNDLE_APP_CONFIG=$BUNDLE_PATH
+#
+WORKDIR ${APP_HOME}
 
 COPY --from=dependencies ${APP_HOME} ${APP_HOME}
 COPY --from=dependencies /usr/local/bundle/ /usr/local/bundle/
