@@ -25,7 +25,7 @@ module Utils
 
       def enable_https(_uri, http, ca_cert_path)
         http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
         if ca_cert_path && File.exist?(ca_cert_path)
           http.ca_file = ca_cert_path
