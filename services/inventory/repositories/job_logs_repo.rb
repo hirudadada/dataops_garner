@@ -2,18 +2,6 @@
 
 module Inventory
   module Repositories
-    class Log
-      attr_reader :attributes
-
-      def initialize(attributes)
-        @attributes = attributes
-      end
-
-      def [](name)
-        attributes[name]
-      end
-    end
-
     class JobLogsRepo < Garner::Repository[:job_logs]
       commands :create, update: :by_pk
       # def inspect
@@ -74,7 +62,7 @@ module Inventory
       end
 
       def update_as_collected(job_ids)
-        job_logs.where(joblogid: job_ids).command(:update).call(logs_collected: true)
+        job_logs.where(joblogid: job_ids).command(:update).call(logs_collected: Time.now.utc)
       end
 
       protected

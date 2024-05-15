@@ -19,7 +19,7 @@ module Inventory
       protected
 
       def add_timestamps(job_log)
-        job_log[:collected] = false
+        # job_log[:collected] = nil
         job_log[:created_at] = Time.now.utc
       end
 
