@@ -16,7 +16,7 @@ module Garner
           # attribute :etl_execute_by, Types::String.meta(alias: :executed_by)
           # attribute :etl_batch_id, Types::String.meta(alias: :batch_id)
           attribute :records_insert_datetime, Types::Time.meta(alias: :created_at)
-          attribute :logs_collected, Types::Time.optional
+          attribute :collected_at, Types::Time.optional
 
           associations do
             has_many :job_step_logs, foreign_key: :joblogid, combine_key: :joblogid, view: :for_job_status_log,
@@ -25,7 +25,7 @@ module Garner
         end
 
         def collectable
-          where(logs_collected: nil).exclude(etl_completetime: nil)
+          where(collected_at: nil).exclude(etl_completetime: nil)
         end
 
         def by_started_at

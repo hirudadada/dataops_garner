@@ -7,7 +7,6 @@ module Utils
     started_at: :etl_starttime,
     ended_at: :etl_completetime,
     status_description: :etl_status_description,
-    collected: :logs_collected,
     created_at: :records_insert_datetime
   }.freeze
 

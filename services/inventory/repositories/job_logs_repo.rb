@@ -34,7 +34,7 @@ module Inventory
       end
 
       # job_logs
-      # .where(logs_collected: false)
+      # .where(collected_at: false)
       # .exclude(etl_completetime: nil)
       # .order {:etl_starttime}
       # .limit(limit)
@@ -62,7 +62,7 @@ module Inventory
       end
 
       def update_as_collected(job_ids)
-        job_logs.where(joblogid: job_ids).command(:update).call(logs_collected: Time.now.utc)
+        job_logs.where(joblogid: job_ids).command(:update).call(collected_at: Time.now.utc)
       end
 
       protected
