@@ -6,6 +6,7 @@ module Garner
   App.register_provider(:settings, from: :dry_system) do # rubocop:disable Metrics/BlockLength
     settings do # rubocop:disable Metrics/BlockLength
       # General Settings
+      setting :service_name, constructor: Types::Optional::String
       setting :app_name, default: Garnet.app.app_name, constructor: Types::String.constrained(filled: true)
       setting :app_env, default: :production, constructor: Types::Symbol
         .constructor { |value| value.to_s.downcase.to_sym }
