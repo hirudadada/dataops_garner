@@ -17,7 +17,7 @@ services:
     volumes:
       - ../../:${APP_HOME}
       - ./env/jobs:${ENV_HOME}/jobs
-      - ./.data/certs:${DEV_APM_SERVER_CA_CERT}
+      - ./.data/certs:${DEV_ELASTIC_APM_SERVER_CA_CERT}
       - ../../vendor/bundle:/usr/local/bundle
       - ../../../garnet:/gems/garnet
       - ../build/src:${SCHEMATIC_HOME}

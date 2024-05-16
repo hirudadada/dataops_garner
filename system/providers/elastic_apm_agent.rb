@@ -31,23 +31,32 @@ module Garner
 
     start do
       settings = target['settings']
-      Utils::Elastic::CheckConnection.new.call(settings.apm_server_url, settings.apm_server_ca_cert_file)
+      Utils::Elastic::CheckConnection.new.call(settings.elastic_apm_server_url,
+                                               settings.elastic_apm_server_ca_cert_file)
 
       config = {
         logger: target['logger'],
-        enabled: settings.apm_enabled,
-        server_url: settings.apm_server_url,
+        enabled: settings.elastic_apm_enabled,
+        server_url: settings.elastic_apm_server_url,
         hostname: settings.app_name,
-        secret_token: password(settings.apm_secret_token_encrypted, settings.apm_secret_token),
-        service_name: settings.service_name.to_s.strip.empty? ? "#{format_for_path(settings.db_host)}_#{format_for_path(settings.db_name)}" : settings.service_name, # rubocop:disable Layout/LineLength
+        secret_token: password(settings.elastic_apm_secret_token_encrypted, settings.elastic_apm_secret_token),
+        service_name: settings.elastic_apm_service_name.nil? ? "#{format_for_path(settings.db_host)}_#{format_for_path(settings.db_name)}" : settings.service_name,
         environment: settings.app_env,
         log_level: settings.log_level,
-        pool_size: settings.apm_pool_size
+        pool_size: settings.elastic_apm_pool_size
       }
 
-      config[:server_ca_cert_file] = settings.apm_server_ca_cert_file unless settings.apm_server_ca_cert_file.nil?
+      unless settings.elastic_apm_server_ca_cert_file.nil?
+        config[:server_ca_cert_file] =
+          settings.elastic_apm_server_ca_cert_file
+      end
 
       ElasticAPM.start(config)
+      if ElasticAPM.running?
+        puts 'Elastic APM agent connected.'
+      else
+        puts 'Elastic APM agent failed to connect.'
+      end
     end
 
     stop do
