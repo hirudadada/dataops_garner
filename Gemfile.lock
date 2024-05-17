@@ -132,6 +132,9 @@ GEM
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
+    pry-doc (1.4.0)
+      pry (~> 0.11)
+      yard (~> 0.9.11)
     psych (5.1.2)
       stringio
     public_suffix (5.0.5)
@@ -200,6 +203,7 @@ GEM
     transproc (1.1.1)
     ulid (1.4.0)
     unicode-display_width (2.5.0)
+    yard (0.9.36)
     zeitwerk (2.6.14)
 
 PLATFORMS
@@ -213,6 +217,7 @@ DEPENDENCIES
   garnet!
   pg (~> 1.5)
   pry (~> 0.14.2)
+  pry-doc (~> 1.4.0)
   rdoc (>= 6.6.3.1)
   rubocop (~> 1.63.5)
   ruby-lsp (~> 0.16.4)
