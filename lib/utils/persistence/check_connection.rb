@@ -2,11 +2,18 @@
 
 module Utils
   module Persistence
-    def self.check_connection(rom)
+    def check_connection(rom)
       rom.relations[:job_logs]
          .limit(1)
          .combine(:job_step_logs)
          .to_a
+    end
+
+    def persistence_keys
+      pattern = /^persistence([\..+]*)\.rom/
+      rom_keys = Garnet.app.keys.grep pattern do |key|
+        key.match(pattern).captures[0]
+      end
     end
   end
 end
