@@ -22,7 +22,7 @@ module Utils
 end
 
 module Garner
-  App.register_provider(:elastic_apm_agent) do
+  App.register_provider(:elastic_apm_agent) do # rubocop:disable Metrics/BlockLength
     include Utils::Config
 
     prepare do
@@ -40,7 +40,7 @@ module Garner
         server_url: settings.elastic_apm_server_url,
         hostname: settings.app_name,
         secret_token: password(settings.elastic_apm_secret_token_encrypted, settings.elastic_apm_secret_token),
-        service_name: settings.elastic_apm_service_name.nil? ? "#{format_for_path(settings.db_host)}_#{format_for_path(settings.db_name)}" : settings.service_name,
+        service_name: settings.elastic_apm_service_name.nil? ? "#{format_for_path(settings.db_host)}_#{format_for_path(settings.db_name)}" : settings.service_name, # rubocop:disable Layout/LineLength
         environment: settings.app_env,
         log_level: settings.log_level,
         pool_size: settings.elastic_apm_pool_size
