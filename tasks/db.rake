@@ -5,18 +5,29 @@ require_relative '../lib/utils/persistence/check_connection'
 namespace :db do
   desc 'test connection'
   task :check_connection do
-    require_relative '../app/app'
+    require Garnet.app.root.join('system/providers/persistence')
+    include Utils::Persistence
 
-    Garnet.boot
+    Garnet.prepare(:persistence)
+    Garnet.app.start(:persistence)
 
-    rom_keys = Garnet.app.keys.select { |key| key.to_s.match(/persistence[\..+]*\.rom/) }
+    begin
+      persistence_keys.each do |key|
+        named = !key.empty?
+        provider_key = named ? :"persistence#{key}" : :persistence
+        rom_key = :"#{provider_key}.rom"
+        provider = Garnet.app.providers[provider_key]
 
-    rom_keys.each do |key|
-      rom = Garnet.app.resolve(key)
-      Utils::Persistence.check_connection(rom)
-      puts 'Db connection successful.'
+        puts 'Checking Db...'
+        check_connection(Garnet.app[rom_key])
+        puts '-- Connection --'
+        puts "db_user: #{provider.source.config.db_user}"
+        puts "database_url: #{provider.source.config.database_url}"
+        puts "enable_sql_log: #{provider.source.config.enable_sql_log}"
+      end
+      puts 'Database is connected.'
     rescue StandardError => e
-      puts "Failed to connect db, #{e.message}"
+      raise "Database connection failed, #{e.message}"
     end
   end
 end
