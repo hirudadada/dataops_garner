@@ -26,6 +26,7 @@ module Ingestion
 
       def handle_submit(job_logs)
         logger.info "[Batch##{job.batch_name}] Fetched #{job_logs.size} job logs"
+        logger.debug "calling from #{__method__}, job_logs: #{job_logs}"
         submit_job_logs(job_logs)
       end
 
@@ -34,6 +35,7 @@ module Ingestion
         slices.each_with_index do |slice, i|
           slice_name = job.slice_name(i)
           job.fetched[slice_name] = slice
+          logger.debug "slice: #{slice}"
           submit_to_elastic_message.deliver!(slice: slice_name, job_logs: slice)
         end
       end

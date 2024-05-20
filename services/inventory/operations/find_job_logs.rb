@@ -26,7 +26,7 @@ module Inventory
           step[:started_at] = acc.empty? ? first_step_log_started_at : acc[idx - 1][:ended_at]
           acc << step
         end
-        logger.debug job_log
+        logger.debug "calling from #{__method__}, job_log: #{job_log}"
         job_log
       end
     end

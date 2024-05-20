@@ -23,7 +23,7 @@ module Elastic
           else
             apm.end_transaction(transaction, log[:ended_at])
           end
-        end
+        end.tap { |x| logger.debug "calling from #{__method__} apm transaction: #{x}" }
       end
 
       def create_spans(steps)
