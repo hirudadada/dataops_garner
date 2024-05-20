@@ -11,7 +11,7 @@ module Utils
 
     def persistence_keys
       pattern = /^persistence([\..+]*)\.rom/
-      rom_keys = Garnet.app.keys.grep pattern do |key|
+      Garnet.app.keys.grep pattern do |key|
         key.match(pattern).captures[0]
       end
     end

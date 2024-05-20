@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
-module Garner
-  module Elastic
-    class Instrumentation
-      include Deps['logger']
-
-      def running? = ElasticAPM.running?
+module Elastic
+  module Operations
+    class ContextManager < Elastic::Operation
+      def apm_running? = ElasticAPM.running?
 
       def with_span(name, started, ended) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
         span = ElasticAPM.start_span name
@@ -16,7 +14,7 @@ module Garner
       rescue StandardError => e
         logger.info "Unable to create span, #{e}"
         end_error_span(span, e)
-        raise Elastic::SpanCreationError.new(e)
+        raise Elastic::SpanCreationError, e
       ensure
         ElasticAPM.agent.instrumenter.current_spans.delete(span)
         ElasticAPM.agent.enqueue span
@@ -30,7 +28,7 @@ module Garner
       rescue StandardError => e
         logger.info "Unable to create transaction, #{e}"
         end_error_transaction(transaction, ended)
-        raise Elastic::TransactionCreationError.new(e)
+        raise Elastic::TransactionCreationError, e
       ensure
         ElasticAPM.agent.instrumenter.current_transaction = nil
         ElasticAPM.agent.enqueue transaction
