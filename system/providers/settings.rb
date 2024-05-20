@@ -5,7 +5,6 @@ require_relative '../../lib/app/types'
 module Garner
   App.register_provider(:settings, from: :dry_system) do # rubocop:disable Metrics/BlockLength
     settings do # rubocop:disable Metrics/BlockLength
-      setting :service_name, constructor: Types::Coercible::StringOrNil.optional
       setting :app_name, default: Garnet.app.app_name, constructor: Types::String.constrained(filled: true)
       setting :app_env, default: :production, constructor: Types::Symbol
         .constructor { |value| value.to_s.downcase.to_sym }
@@ -25,12 +24,12 @@ module Garner
       # Apm
       setting :elastic_apm_server_url, constructor: Types::String.constrained(filled: true)
       setting :elastic_apm_enabled, constructor: Types::Params::Bool.optional.default(true)
-      setting :elastic_apm_service_name, constructor: Types::Coercible::String.optional
+      setting :elastic_apm_service_name, constructor: Types::Coercible::StringOrNil.optional
       setting :elastic_apm_secret_token, constructor: Types::Coercible::StringOrNil.optional
       setting :elastic_apm_secret_token_encrypted, constructor: Types::Coercible::StringOrNil.optional
       setting :elastic_apm_server_ca_cert_file, constructor: Types::Coercible::StringOrNil.optional
       setting :elastic_apm_verify_server_cert, constructor: Types::Params::Bool.optional.default(false)
-      setting :elastic_apm_pool_size, constructor: Types::Coercible::StringOrNil.optional
+      setting :elastic_apm_pool_size, constructor: Types::Coercible::Integer.optional.default(3)
 
       # Simulation Job
       setting :simulation_job_enabled, constructor: Types::Params::Bool.optional.default(false)
