@@ -55,7 +55,7 @@ module Utils
 
       def make_http_request(uri, http)
         request = Net::HTTP::Get.new(uri)
-        response = http.request(request)
+        http.request(request)
       end
 
       def check_response_code(response, url)
