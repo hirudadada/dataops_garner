@@ -29,6 +29,7 @@ module Inventory
         job_logs
           .collectable
           .by_started_at
+          .limit(limit)
           .combine(:job_step_logs)
           .to_a
       end
