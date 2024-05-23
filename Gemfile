@@ -21,5 +21,6 @@ group :development do
   gem 'byebug', '~>11.1.3'
   gem 'pry', '~>0.14.2'
   gem 'rubocop', '~>1.60.2'
-  gem 'ruby-lsp', '~>0.14.1'
+  gem 'ruby-lsp', '~>0.16.4'
+  gem 'debug'
 end
