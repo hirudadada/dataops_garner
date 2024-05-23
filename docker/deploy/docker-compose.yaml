@@ -1,12 +1,8 @@
-version: "3.6"
-
 services:
   # For development only
   app:
     depends_on:
       app.db:
-        condition: service_healthy
-      apm:
         condition: service_healthy
     image: ${DEV_IMAGE}
     env_file:

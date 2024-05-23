@@ -39,11 +39,11 @@ pkg/
 .yarn-error.log
 
 # Ignore dotenv configuration files.
-*.env
-.env
-.env.*
-.env.local
-.env.*.local
+# *.env
+# .env
+# .env.*
+# .env.local
+# .env.*.local
 *.local*
 
 # Ignore the database schema and seeds files.

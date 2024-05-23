@@ -74,3 +74,5 @@ Makefile
 README.md
 LICENSE
 *.md
+
+*.local*
