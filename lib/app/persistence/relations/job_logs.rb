@@ -5,7 +5,7 @@ module Garner
     module Relations
       class JobLogs < ROM::Relation[:sql]
         # TODO: still have to figure out usage of alias: value
-        schema(:job_status_log, infer: true,as: :job_logs) do
+        schema(:job_status_log, infer: true, as: :job_logs) do
           attribute :joblogid, Types::Integer.meta(primary_key: true, alias: :id)
           attribute :etl_procedure, Types::String.meta(alias: :name)
           # attribute :etl_parameter, Types::String.meta(alias: :parameter)
@@ -19,7 +19,8 @@ module Garner
           attribute :logs_collected, Types::Bool.meta(alias: :collected)
 
           associations do
-            has_many :job_step_logs, foreign_key: :joblogid, combine_key: :joblogid, view: :for_job_status_log, override: true
+            has_many :job_step_logs, foreign_key: :joblogid, combine_key: :joblogid, view: :for_job_status_log,
+                                     override: true
           end
         end
 

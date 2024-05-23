@@ -53,6 +53,7 @@ class ServiceManager
 
   def start_service(key)
     return unless @enabled_services[key]
+
     @services[key].request(:start)
   end
 

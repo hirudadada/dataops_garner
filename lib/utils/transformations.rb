@@ -61,7 +61,7 @@ module Utils
       value
     end
 
-    def self.from_database_job_log(record) # rubocop:disable Metrics/CyclomaticComplexity
+    def self.from_database_job_log(record)
       record.transform_keys! { |key| JOB_LOG_MAPPING.invert[key] || key }
       record.each do |key, value|
         case key
@@ -75,11 +75,10 @@ module Utils
     end
 
     def self.from_database_job_step_log(record)
-      transformed_step = record.transform_keys { |key| JOB_STEP_LOG_MAPPING.invert[key] || key }
+      record.transform_keys { |key| JOB_STEP_LOG_MAPPING.invert[key] || key }
       # if transformed_step[:ended_at].is_a?(DateTime)
       #   transformed_step[:ended_at] = datetime_to_time(transformed_step[:ended_at])
       # end
-      transformed_step
     end
   end
 end

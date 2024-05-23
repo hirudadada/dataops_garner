@@ -26,6 +26,5 @@ module Garner
       puts "Invalid log level for #{app_env} environment: #{log_level}"
       config.log_level = :info
     end
-
   end
 end

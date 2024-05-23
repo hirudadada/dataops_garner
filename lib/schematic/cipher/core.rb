@@ -1,11 +1,10 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 
-require "pathname"
+require 'pathname'
 
 module Schematic
   class Cipher
-    attr_reader :options
-    attr_reader :default_options
+    attr_reader :options, :default_options
 
     def initialize(opts = {})
       @options = opts
@@ -30,7 +29,7 @@ module Schematic
     def key_length
       @key_length ||= init_key_length
     end
-  
+
     def default_key_length = 4096
 
     def keys_dir
@@ -47,7 +46,7 @@ module Schematic
 
     def private_key_file = File.join(keys_dir, "#{issuer}.priv")
     def public_key_file = File.join(keys_dir, "#{issuer}.pub")
-  
+
     protected
 
     def set_default_options
@@ -79,13 +78,13 @@ module Schematic
     end
 
     def init_work_dir
-      (options[:work_dir] || default_work_dir)
+      options[:work_dir] || default_work_dir
     end
 
     def on_init
-      @options[:algorithm] = ENV['GARNET_CIPHER_ALGORITHM']
-      @options[:key_length] = ENV['GARNET_CIPHER_KEY_LENGTH']
-      @options[:issuer] = ENV['GARNET_CIPHER_ISSUER']
+      @options[:algorithm] = ENV.fetch('GARNET_CIPHER_ALGORITHM', nil)
+      @options[:key_length] = ENV.fetch('GARNET_CIPHER_KEY_LENGTH', nil)
+      @options[:issuer] = ENV.fetch('GARNET_CIPHER_ISSUER', nil)
     end
   end
 end

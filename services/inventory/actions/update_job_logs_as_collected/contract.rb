@@ -12,4 +12,3 @@ module Inventory
     end
   end
 end
-

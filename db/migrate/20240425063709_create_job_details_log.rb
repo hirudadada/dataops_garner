@@ -23,4 +23,3 @@ ROM::SQL.migration do
     drop_table(Sequel[:DW_ETL_LOG][:Job_Details_Log])
   end
 end
-

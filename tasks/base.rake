@@ -1,14 +1,14 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 
 namespace :app do
-  desc "Load environment settings"
+  desc 'Load environment settings'
   task :env do
-    require "dotenv"
+    require 'dotenv'
     Dotenv.load(*Dir["#{ENV['ENV_HOME']}/**/*.env"]) if Dir.exist?(ENV['ENV_HOME'])
-    puts "Environment settings are loaded successfully"
+    puts 'Environment settings are loaded successfully'
   end
 
-  desc "Show application version"
+  desc 'Show application version'
   task :version do
     if ENV['APP_VERSION'].nil?
       puts "App version: #{File.read('VERSION')}" if File.exist?('VERSION')
@@ -19,7 +19,7 @@ namespace :app do
 end
 
 namespace :service do
-  desc "Run all services"
+  desc 'Run all services'
   task :all do
     require_relative '../main'
 
@@ -30,7 +30,7 @@ namespace :service do
     main_event_loop(manager)
   end
 
-  desc "Run the ingestion service"
+  desc 'Run the ingestion service'
   task :ingest do
     require_relative '../main'
 
@@ -40,7 +40,7 @@ namespace :service do
     main_event_loop(manager)
   end
 
-  desc "Run the simulation service"
+  desc 'Run the simulation service'
   task :simulate do
     require_relative '../main'
 
@@ -51,17 +51,17 @@ namespace :service do
   end
 end
 
-desc "Show version info"
+desc 'Show version info'
 task :version do
   Rake::Task['app:version'].invoke
 end
 
-desc "Perform configuration checks"
+desc 'Perform configuration checks'
 task :check do
-  puts "Version check:"
+  puts 'Version check:'
   Rake::Task['version'].invoke
   puts
-  puts "Elastic APM connection check"
+  puts 'Elastic APM connection check'
   Rake::Task['elastic:check_connection'].invoke
   # puts "Database connection check:"
   # Rake::Task['db:test'].invoke
