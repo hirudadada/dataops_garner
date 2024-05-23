@@ -19,8 +19,8 @@ gem 'rdoc', '>= 6.6.3.1'
 
 group :development do
   gem 'byebug', '~>11.1.3'
-  gem 'pry', '~>0.14.2'
-  gem 'rubocop', '~>1.60.2'
-  gem 'ruby-lsp', '~>0.16.4'
   gem 'debug'
+  gem 'pry', '~>0.14.2'
+  gem 'rubocop', '~>1.63.5'
+  gem 'ruby-lsp', '~>0.16.4'
 end
