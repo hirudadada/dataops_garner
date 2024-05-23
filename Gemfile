@@ -9,23 +9,11 @@ end
 gem 'garnet', metasync: 'garnet', branch: 'main'
 # gem 'garnet', path: '/gems/garnet'
 
-gem 'dry-configurable', '~>1.1.0'
-gem 'dry-container', '~>0.11.0'
-gem 'dry-initializer', '~>3.1.1'
-gem 'dry-struct', '~> 1.6.0'
-gem 'dry-system', '~> 1.0.1'
-gem 'dry-types', '~> 1.7.2'
-gem 'dry-validation', '~> 1.10.0'
+gem 'pg', '~> 1.5'
+gem 'tiny_tds', '~> 2.1'
 
-gem 'erb', '~> 4.0.4'
-gem 'yaml', '~> 0.3.0'
-
-gem 'tiny_tds', '2.1.7'
-
-gem 'async', '~> 2.8'
-gem 'dotenv', '~> 3.1'
-
-gem 'elastic-apm', '4.7.2'
+gem 'async', '~> 2.10'
+gem 'elastic-apm', '~> 4.7'
 
 group :development do
   gem 'byebug', '~>11.1.3'
