@@ -1,7 +1,7 @@
 version: "3.6"
 
 services:
-  dev.db:
+  app.db:
     image: ${DEV_DB_IMAGE}
     environment:
       - ACCEPT_EULA=Y
@@ -20,7 +20,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 7
-  # dev.db2:
+  # app.db2:
   #   image: ${DEV_DB_IMAGE}
   #   environment:
   #     - ACCEPT_EULA=Y
@@ -39,7 +39,7 @@ services:
   #     interval: 10s
   #     timeout: 5s
   #     retries: 7
-  # dev.db3:
+  # app.db3:
   #   image: ${DEV_DB_IMAGE}
   #   environment:
   #     - ACCEPT_EULA=Y
