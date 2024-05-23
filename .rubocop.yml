@@ -1,6 +1,9 @@
 AllCops:
   TargetRubyVersion: 3.2
   NewCops: enable
+  Exclude:
+    - 'vendor/**/*'
+    - 'docker/build/src/**/*'
 
 Layout/LineLength:
   Max: 120
