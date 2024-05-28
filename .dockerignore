@@ -34,6 +34,7 @@ gitops/
 .cipher
 !.cipher/*.pub
 *.local*
+**/*.local*
 
 # Ignore scripts that may contain sensitive information
 **/scripts*/
@@ -75,4 +76,3 @@ README.md
 LICENSE
 *.md
 
-*.local*
