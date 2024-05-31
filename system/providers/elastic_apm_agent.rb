@@ -1,12 +1,22 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/utils/config'
+require_relative '../../lib/utils/config/service_name_formatter'
 require_relative '../../lib/app/provider_sources/elastic_apm_agent'
 
 module Garner
   App.register_provider(:elastic_apm_agent, source: :elastic_apm_agent, from: :app) do
+    def service_name
+      formatter = Utils::Config::ServiceNameFormatter.new
+
+      if target[:settings].service_name.nil?
+        "#{formatter.call(target[:settings].db_host)}-#{formatter.call(target[:settings].db_name)}"
+      else
+        formatter.call(target[:settings].service_name)
+      end
+    end
+
     config.enabled = target[:settings].elastic_apm_enabled
-    config.service_name = target[:settings].elastic_apm_service_name.nil? ? Utils::Config.format_for_path(target[:settings].db_host) : target[:settings].elastic_apm_service_name # rubocop:disable Layout/LineLength
+    config.service_name = service_name
     config.url = target[:settings].elastic_apm_server_url
     config.secret_token = target[:settings].elastic_apm_secret_token
     config.secret_token_encrypted = target[:settings].elastic_apm_secret_token_encrypted

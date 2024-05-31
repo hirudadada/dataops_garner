@@ -8,4 +8,6 @@ data:
   # # Default
   # APP_ENV: production
 
+  # optional, will use db_host with db_name if opt out
+  # SERVICE_NAME: 'some_service_name'
   SLEEP_INTERVAL: "20"
