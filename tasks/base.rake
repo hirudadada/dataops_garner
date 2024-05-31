@@ -18,39 +18,6 @@ namespace :app do
   end
 end
 
-namespace :service do
-  desc 'Run all services'
-  task :all do
-    require_relative '../main'
-
-    manager = ServiceManager.new
-    manager.boot_system
-    manager.add_service(:simulation, Simulation::Service['actors.simulator'])
-    manager.add_service(:ingestion, Ingestion::Service['actors.collector'])
-    main_event_loop(manager)
-  end
-
-  desc 'Run the ingestion service'
-  task :ingest do
-    require_relative '../main'
-
-    manager = ServiceManager.new
-    manager.boot_system
-    manager.add_service(:ingestion, Ingestion::Service['actors.collector'])
-    main_event_loop(manager)
-  end
-
-  desc 'Run the simulation service'
-  task :simulate do
-    require_relative '../main'
-
-    manager = ServiceManager.new
-    manager.boot_system
-    manager.add_service(:simulation, Simulation::Service['actors.simulator'])
-    main_event_loop(manager)
-  end
-end
-
 desc 'Show version info'
 task :version do
   Rake::Task['app:version'].invoke
@@ -61,8 +28,10 @@ task :check do
   puts 'Version check:'
   Rake::Task['version'].invoke
   puts
-  puts 'Elastic APM connection check'
-  Rake::Task['elastic:check_connection'].invoke
-  # puts "Database connection check:"
-  # Rake::Task['db:test'].invoke
+  puts 'Elastic APM agent check:'
+  Rake::Task['agent:check'].invoke
+  puts
+  puts 'Database check:'
+  # TODO: do all testing
+  Rake::Task['db:check'].invoke
 end

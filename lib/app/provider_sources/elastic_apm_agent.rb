@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../../utils/elastic/check_connection'
 require_relative '../types'
 
 module Garner
@@ -19,7 +18,7 @@ module Garner
 
         def decrypted = Garnet::Utils::Cipher.new.decrypt(config.secret_token_encrypted)
 
-        def apm_config
+        def elastic_config # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
           {
             enabled: config.enabled,
             service_name: config.service_name,
@@ -37,13 +36,15 @@ module Garner
 
         def prepare
           require 'elastic-apm'
-          register(:elastic_apm, apm_config)
-          Utils::Elastic::CheckConnection.new.call(apm_config[:server_url], apm_config[:server_ca_cert_file])
+
+          register('elastic.config', elastic_config)
         end
 
         def start
-          apm_config = target[:elastic_apm]
-          ElasticAPM.start(apm_config)
+          elastic_config = target['elastic.config']
+          target['agent.check_connection'].call(url: elastic_config[:server_url],
+                                                ca_cert_file: elastic_config[:server_ca_cert_file])
+          ElasticAPM.start(elastic_config)
           if ElasticAPM.running?
             puts 'Elastic APM agent connected.'
           else

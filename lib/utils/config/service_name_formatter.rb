@@ -2,8 +2,12 @@
 
 module Utils
   module Config
-    module Helpers
-      private
+    class ServiceNameFormatter
+      def call(input)
+        sanitize_service_name(input)
+      end
+
+      protected
 
       def sanitize_service_name(str)
         # Replace any character that is not alphanumeric, an underscore, or a dash with an underscore
@@ -12,14 +16,6 @@ module Utils
         sanitized_str = sanitized_str.gsub('.', '_')
         # Remove leading or trailing underscores or dashes
         sanitized_str.gsub(/\A[_-]+|[_-]+\z/, '')
-      end
-    end
-
-    class ServiceNameFormatter
-      include Helpers
-
-      def call(input)
-        sanitize_service_name(input)
       end
     end
   end

@@ -5,14 +5,14 @@ require 'uri'
 require 'openssl'
 
 module Utils
-  module Elastic
+  module Agent
     class CheckConnection
-      def call(url, ca_cert_path = nil)
+      def call(url:, ca_cert_file: nil)
         uri = URI(url)
         http = Net::HTTP.new(uri.host, uri.port)
 
         if uri.scheme == 'https'
-          enable_https(uri, http, ca_cert_path)
+          enable_https(uri, http, ca_cert_file)
         elsif uri.scheme == 'http'
           check_https_only(uri)
         end
@@ -23,16 +23,16 @@ module Utils
 
       protected
 
-      def enable_https(_uri, http, ca_cert_path)
+      def enable_https(_uri, http, ca_cert_file)
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-        if ca_cert_path && File.exist?(ca_cert_path)
-          http.ca_file = ca_cert_path
-        elsif ca_cert_path
-          raise "CA certificate file not found at: #{ca_cert_path}"
+        if ca_cert_file && File.exist?(ca_cert_file)
+          http.ca_file = ca_cert_file
+        elsif ca_cert_file
+          raise "CA certificate file not found at: #{ca_cert_file}"
         end
-        # If `ca_cert_path` is nil, no CA file is set and system defaults are used
+        # If `ca_cert_file` is nil, no CA file is set and system defaults are used
       end
 
       def check_https_only(uri)

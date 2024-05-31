@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+require_relative '../../lib/utils/agent/check_connection'
 require_relative '../../lib/utils/config/service_name_formatter'
 require_relative '../../lib/app/provider_sources/elastic_apm_agent'
 
 module Garner
+  App.register('agent.check_connection', Utils::Agent::CheckConnection.new)
   App.register_provider(:elastic_apm_agent, source: :elastic_apm_agent, from: :app) do
-    def service_name
+    def service_name # rubocop:disable Metrics/AbcSize
       formatter = Utils::Config::ServiceNameFormatter.new
 
       if target[:settings].service_name.nil?

@@ -1,12 +1,5 @@
 # frozen_string_literal: true
 
-require 'bundler/setup'
-require 'garnet'
-require 'async'
-require 'logger'
-
-require_relative 'app'
-
 class ServiceManager
   attr_reader :logger, :running
 
@@ -18,7 +11,7 @@ class ServiceManager
     setup_signal_traps
   end
 
-  def boot_system # rubocop:disable Metrics/AbcSize
+  def boot_system # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     Garnet.boot
     logger.debug("App name: #{Garnet.app.app_name}")
     logger.debug("App container: #{Garnet.app.keys}")
@@ -93,7 +86,7 @@ class ServiceManager
   end
 end
 
-def main_event_loop(manager)
+def main_event_loop(manager) # rubocop:disable Metrics/MethodLength
   sleep_interval = Garnet.app['settings'].sleep_interval
   while manager.running
     begin

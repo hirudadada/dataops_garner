@@ -1,33 +1,27 @@
 # frozen_string_literal: true
 
-require_relative '../lib/utils/persistence/check_connection'
+require_relative '../lib/utils/persistence'
 
 namespace :db do
-  desc 'test connection'
-  task :check_connection do
+  desc 'test connection and schema relations'
+  task :check do
     require Garnet.app.root.join('system/providers/persistence')
-    include Utils::Persistence
 
     Garnet.prepare(:persistence)
     Garnet.app.start(:persistence)
 
     begin
-      persistence_keys.each do |key|
-        named = !key.empty?
-        provider_key = named ? :"persistence#{key}" : :persistence
-        rom_key = :"#{provider_key}.rom"
-        provider = Garnet.app.providers[provider_key]
-
-        puts 'Checking Db...'
-        check_connection(Garnet.app[rom_key])
-        puts '-- Connection --'
-        puts "db_user: #{provider.source.config.db_user}"
-        puts "database_url: #{provider.source.config.database_url}"
-        puts "enable_sql_log: #{provider.source.config.enable_sql_log}"
+      Utils::Persistence.each_keys(container: Garnet.app) do |key|
+        puts 'Checking Db, ping...'
+        connection_helper = Utils::Persistence::Connection.new(key)
+        connection_helper.check
+        puts " - Database url: #{connection_helper.provider.source.config.database_url}"
+        puts " - Db user: #{connection_helper.provider.source.config.db_user}"
+        puts " - Sql log enabled?: #{connection_helper.provider.source.config.enable_sql_log}"
+        puts 'Pong!'
       end
-      puts 'Database is connected.'
     rescue StandardError => e
-      raise "Database connection failed, #{e.message}"
+      raise "Checking failed, #{e.message}"
     end
   end
 end

@@ -15,6 +15,7 @@ gem 'tiny_tds', '~> 2.1'
 gem 'async', '~> 2.10'
 gem 'elastic-apm', '~> 4.7'
 
+gem 'minitest', '~> 5.16'
 gem 'rdoc', '>= 6.6.3.1'
 
 group :development do
