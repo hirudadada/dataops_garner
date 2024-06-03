@@ -24,5 +24,6 @@ group :development do
   gem 'pry', '~>0.14.2'
   gem 'pry-doc', '~>1.4.0'
   gem 'rubocop', '~>1.63.5'
+  gem 'rubocop-minitest', '~> 0.35'
   gem 'ruby-lsp', '~>0.16.4'
 end
