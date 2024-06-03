@@ -26,4 +26,6 @@ group :development do
   gem 'rubocop', '~>1.63.5'
   gem 'rubocop-minitest', '~> 0.35'
   gem 'ruby-lsp', '~>0.16.4'
+  # gem 'rack-mini-profile'
+  # gem 'bullet'
 end

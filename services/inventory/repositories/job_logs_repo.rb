@@ -12,6 +12,7 @@ module Inventory
           .collectable
           .by_started_at
           .limit(limit)
+          .select_attributes
           .combine(:job_step_logs)
           .to_a
       end
@@ -19,6 +20,7 @@ module Inventory
       def find_by_ids(job_ids)
         base_query
           .where(joblogid: job_ids)
+          .select_attributes
           .to_a
       end
 

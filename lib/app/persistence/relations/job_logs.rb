@@ -19,7 +19,7 @@ module Garner
           attribute :collected_at, Types::Time.optional
 
           associations do
-            has_many :job_step_logs, foreign_key: :joblogid, combine_key: :joblogid, view: :for_job_status_log,
+            has_many :job_step_logs, foreign_key: :joblogid, combine_key: :joblogid, view: :from_job_status_log,
                                      override: true
           end
         end
@@ -30,6 +30,10 @@ module Garner
 
         def by_started_at
           order(:etl_starttime)
+        end
+
+        def select_attributes
+          select(:joblogid, :etl_procedure, :etl_starttime, :etl_completetime, :records_insert_datetime, :collected_at)
         end
 
         # TODO: Need to find a way to combine the data from :job_details_logs

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/utils/agent/check_connection'
-require_relative '../../lib/utils/config/service_name_formatter'
-require_relative '../../lib/app/provider_sources/elastic_apm_agent'
+require_relative '../../lib/garner/utils/agent'
+require_relative '../../lib/garner/utils/config'
+require_relative '../../lib/garner/provider_sources'
 
 module Garner
   App.register('agent.check_connection', Utils::Agent::CheckConnection.new)

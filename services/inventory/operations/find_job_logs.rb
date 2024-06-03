@@ -3,7 +3,7 @@
 module Inventory
   module Operations
     class FindJobLogs < Inventory::Operation
-      include Deps['transformations']
+      include Deps['operations.job_log_transformations']
 
       def call(limit)
         Sync do
@@ -15,7 +15,7 @@ module Inventory
       protected
 
       def transform_entry(job_log)
-        job_log_transformed = transformations.from_database_job_log(job_log)
+        job_log_transformed = job_log_transformations.from_database_job_log(job_log)
         transform_job_step_logs(job_log_transformed)
       end
 

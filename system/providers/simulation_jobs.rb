@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require_relative '../../services/simulation/job'
-require_relative '../../lib/utils/multiple_job'
+require_relative '../../lib/garner/utils/multiple_job'
 
 module Simulation
   Service.register_provider :simulation_jobs do
-    include Utils::MultipleJob
+    include Garner::Utils::MultipleJob
 
     start do
       env = Garnet.app[:settings].config.app_env

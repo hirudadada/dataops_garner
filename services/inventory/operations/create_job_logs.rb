@@ -3,7 +3,7 @@
 module Inventory
   module Operations
     class CreateJobLogs < Inventory::Operation
-      include Deps['transformations']
+      include Deps['operations.job_log_transformations']
       include Garnet::Utils::PrettyPrint
 
       def call(job_logs)
@@ -25,7 +25,7 @@ module Inventory
 
       def map_attributes(job_log)
         add_timestamps(job_log)
-        transformations.to_database_job_log(job_log)
+        job_log_transformations.to_database_job_log(job_log)
       end
     end
   end

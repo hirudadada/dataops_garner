@@ -19,9 +19,14 @@ module Garner
           end
         end
 
-        def for_job_status_log(_assoc, job_status_logs)
+        # def select_attributes
+        #   select(:stepid, :joblogid, :step, :step_status, :endtime, :errormsg, :remark)
+        # end
+
+        def from_job_status_log(_assoc, job_status_logs)
           # TODO: This combine through ram, still have to figure out how to join by qualified name
           where(joblogid: job_status_logs.map { |log| log[:joblogid] })
+          # .select_attributes
         end
 
         dataset do
