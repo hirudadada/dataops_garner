@@ -13,7 +13,7 @@ module Elastic
 
       protected
 
-      def create_transaction(log)
+      def create_transaction(log) # rubocop:disable Metrics/AbcSize
         error_occurred = :no_error
         context_manager.with_transaction(log[:name], log[:started_at], log[:ended_at]) do |transaction|
           error_occurred = create_spans(log[:job_step_logs])
@@ -23,7 +23,7 @@ module Elastic
           else
             context_manager.end_transaction(transaction, log[:ended_at])
           end
-        end.tap { |x| logger.debug "calling from #{__method__} apm transaction: #{x}" }
+        end.tap { |x| logger.debug "calling from #{__method__} apm transaction: #{x}" } # rubocop:disable Style/MultilineBlockChain
       end
 
       def create_spans(steps)

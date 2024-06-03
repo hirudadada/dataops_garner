@@ -7,7 +7,7 @@ module Ingestion
       protected
 
       # rubocop:disable Style/MultilineBlockChain
-      def handle(params)
+      def handle(params) # rubocop:disable Metrics/AbcSize
         slice = params[:request][:data][:slice]
         job_logs = params[:request][:data][:job_logs]
         params[:result].fmap do |_updated_job_logs|
