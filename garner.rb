@@ -6,10 +6,10 @@ require 'async'
 require 'logger'
 
 require_relative 'app'
-require_relative 'lib/service_manager'
+require_relative 'lib/garner/service_manager'
 
 if __FILE__ == $PROGRAM_NAME
-  manager = ServiceManager.new
+  manager = Garner::ServiceManager.new
   manager.boot_system
   # manager.add_service(:simulation, Simulation::Service['actors.simulator'])
   manager.add_service(:ingestion, Ingestion::Service['actors.collector'])

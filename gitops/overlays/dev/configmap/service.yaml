@@ -3,11 +3,11 @@ kind: ConfigMap
 metadata:
   name: garner-service-configmap
 data:
-  # APP_ENV: development
-  APP_ENV: test
-  # # Default
+  APP_ENV: development
+  # APP_ENV: test
   # APP_ENV: production
 
   # optional, will use db_host with db_name if opt out
-  # SERVICE_NAME: 'some_service_name'
-  SLEEP_INTERVAL: "20"
+  SERVICE_NAME: apm
+  SLEEP_INTERVAL: '20'
+

@@ -20,7 +20,7 @@ services:
       - ./.data/certs:${DEV_ELASTIC_APM_SERVER_CA_CERT}
       - ../../vendor/bundle:/usr/local/bundle
       - ../../../garnet:/gems/garnet
-      - ../build/src:${SCHEMATIC_HOME}
+      - ../build/src:${GARNER_HOME}
     entrypoint: /bin/sh
     stdin_open: true
     tty: true

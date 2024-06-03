@@ -3,9 +3,9 @@ kind: ConfigMap
 metadata:
     name: garner-database-configmap
 data:
-  DB_HOST: dev.db
+  DB_HOST: app.db
   DB_NAME: dataops_garner
   DB_TYPE: mssql
   DB_ADAPTER: tinytds
-  DATABASE_URL: tinytds://dev.db/dataops_garner?textsize=1024000&timeout=500
+  DATABASE_URL: tinytds://app.db/dataops_garner?textsize=1024000&timeout=500
 

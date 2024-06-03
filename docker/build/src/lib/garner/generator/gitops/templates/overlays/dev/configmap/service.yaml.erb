@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: <%= app %>-service-configmap
+data:
+  APP_ENV: <%= ENV.fetch('APP_ENV', 'development') %>
+  # APP_ENV: test
+  # APP_ENV: production
+
+  # optional, will use db_host with db_name if opt out
+  SERVICE_NAME: <%= ENV['SERVICE_NAME'] %>
+  SLEEP_INTERVAL: '<%=ENV['SLEEP_INTERVAL'] %>'

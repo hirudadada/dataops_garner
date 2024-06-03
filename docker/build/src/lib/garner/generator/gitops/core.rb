@@ -3,7 +3,7 @@
 require "pathname"
 require_relative "../../cipher"
 
-module Schematic
+module Garner
   class Generator
     class GitOpsConfig
       attr_reader :options
@@ -105,11 +105,18 @@ module Schematic
         dir.absolute? ? dir.to_s : File.join(work_dir, dir.to_s)
       end
 
+      def apm_password_encrypted
+        @options['elastic_apm_secret_token_encrypted'] ||=
+        ENV['ELASTIC_APM_SECRET_TOKEN_ENCRYPTED'].to_s.strip.empty? ?
+          Garner::Cipher.new.encrypt(ENV['ELASTIC_APM_SECRET_TOKEN_ENCRYPTED']) :
+          ENV['ELASTIC_APM_SECRET_TOKEN_ENCRYPTED']
+      end
+
       def db_password_encrypted
         @options['db_password_encrypted'] ||=
           ENV['DB_PASSWORD_ENCRYPTED'].nil? ||
           ENV['DB_PASSWORD_ENCRYPTED'].empty? ?
-            Schematic::Cipher.new.encrypt(ENV['DB_PASSWORD']) :
+            Garner::Cipher.new.encrypt(ENV['DB_PASSWORD']) :
             ENV['DB_PASSWORD_ENCRYPTED']
       end
     end

@@ -1,8 +1,10 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-gem 'tiny_tds', '~> 2.1'
+source 'https://rubygems.org'
+
+gem 'mysql2', '~> 0.5'
 gem 'pg', '~> 1.4'
-gem "mysql2", "~> 0.5"
+gem 'tiny_tds', '~> 2.1'
 
-gem "sequel", "~> 5.73"
 gem 'dotenv', '~> 2.8'
+gem 'sequel', '~> 5.73'

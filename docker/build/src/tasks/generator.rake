@@ -1,10 +1,10 @@
 # frozen-string-literal: true
 
-require_relative '../lib/schematic/generator'
+require_relative '../lib/garner/generator'
 
 namespace :gitops do
-  desc "Generate GitOps config"
+  desc 'Generate GitOps config'
   task :generate do
-    Schematic::Generator::GitOpsConfig.new.generate
+    Garner::Generator::GitOpsConfig.new.generate
   end
 end

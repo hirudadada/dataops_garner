@@ -1,6 +1,6 @@
 # frozen-string-literal: true
 
-module Schematic
+module Garner
   class Cipher
     def public_key =
       OpenSSL::PKey::RSA.new(File.binread(public_key_file))

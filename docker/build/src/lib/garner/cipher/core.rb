@@ -2,7 +2,7 @@
 
 require "pathname"
 
-module Schematic
+module Garner
   class Cipher
     attr_reader :options
     attr_reader :default_options
@@ -19,7 +19,7 @@ module Schematic
       @issuer ||= init_issuer
     end
 
-    def default_issuer = 'schematic'
+    def default_issuer = 'garnet'
 
     def algorithm
       @algorithm ||= init_algorithm

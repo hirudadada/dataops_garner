@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: <%= app %>-apm-configmap
+data:
+  ELASTIC_APM_SERVER_URL: <%= ENV['ELASTIC_APM_SERVER_URL'] %>
+  ELASTIC_APM_SERVER_CA_CERT_FILE: <%= ENV['ELASTIC_APM_SERVER_CA_CERT_FILE'] %>
+  ELASTIC_APM_ENABLED: "<%= ENV['ELASTIC_APM_ENABLED'] %>"
+  ELASTIC_APM_POOL_SIZE: "<%= ENV['ELASTIC_APM_POOL_SIZE'] %>"

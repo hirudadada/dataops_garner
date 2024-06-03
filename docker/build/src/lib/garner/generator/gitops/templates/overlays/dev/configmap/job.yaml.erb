@@ -4,5 +4,5 @@ metadata:
   name: <%= app %>-jobs-<%= job %>-configmap
 data:
 <% env_vars.each do |env_var| %>
-  <%= env_var[:name] %>: <%= env_var[:value].inspect %>
+  <%= env_var[:name] %>: "<%= env_var[:value] %>"
 <% end %>

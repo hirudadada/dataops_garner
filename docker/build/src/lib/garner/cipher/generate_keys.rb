@@ -1,6 +1,6 @@
 # frozen-string-literal: true
 
-module Schematic
+module Garner
   class Cipher
     def generate_keys
       rsa_key = OpenSSL::PKey::RSA.generate key_length
