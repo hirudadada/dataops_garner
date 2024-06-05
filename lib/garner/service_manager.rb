@@ -4,6 +4,21 @@ module Garner
   class ServiceManager
     attr_reader :logger, :running
 
+    def self.main_event_loop(manager) # rubocop:disable Metrics/MethodLength
+      sleep_interval = Garnet.app['settings'].sleep_interval
+      while manager.running
+        begin
+          manager.run_all
+          sleep sleep_interval
+          break unless manager.running
+        rescue Exception => e # rubocop:disable Lint/RescueException
+          manager.handle_error(e)
+        ensure
+          manager.shutdown unless manager.running
+        end
+      end
+    end
+
     def initialize
       @services = {}
       @enabled_services = {}
@@ -86,30 +101,15 @@ module Garner
       end
     end
   end
-
-  def main_event_loop(manager) # rubocop:disable Metrics/MethodLength
-    sleep_interval = Garnet.app['settings'].sleep_interval
-    while manager.running
-      begin
-        manager.run_all
-        sleep sleep_interval
-        break unless manager.running
-      rescue Exception => e # rubocop:disable Lint/RescueException
-        manager.handle_error(e)
-      ensure
-        manager.shutdown unless manager.running
-      end
-    end
-  end
 end
 
 if __FILE__ == $PROGRAM_NAME
-  manager = ServiceManager.new
+  manager = Garner::ServiceManager.new
   manager.boot_system
   manager.add_service(:simulation, Simulation::Service['actors.simulator'])
   manager.add_service(:ingestion, Ingestion::Service['actors.collector'])
 
   # manager.disable_service(:simulation)
 
-  main_event_loop(manager)
+  Garner::Service.main_event_loop(manager)
 end

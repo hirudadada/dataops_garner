@@ -16,5 +16,5 @@ if __FILE__ == $PROGRAM_NAME
 
   # manager.disable_service(:simulation)
 
-  main_event_loop(manager)
+  Garner::ServiceManager.main_event_loop(manager)
 end
