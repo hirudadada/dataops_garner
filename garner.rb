@@ -6,7 +6,7 @@ require 'async'
 require 'logger'
 
 require_relative 'app'
-require_relative 'lib/garner/service_manager'
+require_relative 'lib/app/service_manager'
 
 if __FILE__ == $PROGRAM_NAME
   manager = Garner::ServiceManager.new
