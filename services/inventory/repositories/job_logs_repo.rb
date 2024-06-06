@@ -14,7 +14,7 @@ module Inventory
           .to_a
       end
 
-      alias_method :check, :one
+      alias check one
 
       def find_collectable(limit:)
         job_logs

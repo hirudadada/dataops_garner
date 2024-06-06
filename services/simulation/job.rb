@@ -15,6 +15,14 @@ module Simulation
     option :max_batches, default: proc { Float::INFINITY }
     option :batches, default: proc { 0 }
 
+    def self.create_jobs(opts, iterations)
+      (iterations || 1).times.map do |idx|
+        name = "iteration-#{idx + 1}"
+        opts.merge({ name: "#{opts[:name]}-#{name}" })
+        new(**opts)
+      end
+    end
+
     def run
       @batches += 1
       batch_size.times.map { |_| render_job_log }

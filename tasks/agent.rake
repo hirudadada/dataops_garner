@@ -7,7 +7,7 @@ namespace :agent do
     Garnet.prepare(:elastic_apm_agent)
     Garnet.prepare(:settings)
     settings = Garnet.app[:settings]
-    raw_config = Garnet.app['elastic.default_options']
+    raw_config = Garnet.app['agent.default_options']
     puts " - Enabled?: #{settings.elastic_apm_enabled}"
     puts " - Server url: #{settings.elastic_apm_server_url}"
     puts " - Service name: #{settings.elastic_apm_service_name}"

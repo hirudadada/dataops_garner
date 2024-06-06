@@ -1,0 +1,23 @@
+infinite_max_batches_missed:
+  ingestion_job_name: infinite_max_batches_missed
+  ingestion_job_batch_size: 20
+  ingestion_job_slice_size: 5
+  ingestion_job_batch_wait: 20
+  ingestion_job_enabled: false
+
+default:
+  <<: *infinite_max_batches_missed
+  ingestion_job_name: default_job
+  ingestion_job_max_batches: 5
+  ingestion_job_enabled: true
+
+infinite_max_batches_null:
+  <<: *default
+  ingestion_job_name: infinite_max_batches_null
+  ingestion_job_max_batches: null
+  ingestion_job_enabled: true
+
+invalid:
+  ingestion_job_name: invalid_job
+  ingestion_job_slice_size: invalid_size
+  ingestion_job_max_batches: invalid_batches

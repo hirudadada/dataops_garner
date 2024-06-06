@@ -1,19 +1,25 @@
 # frozen_string_literal: true
 
-require_relative '../lib/garner/utils/persistence'
+require_relative '../lib/app/utils/persistence'
 
 namespace :db do
   desc 'test connection and schema relations'
   task :check do
     require Garnet.app.root.join('system/providers/persistence')
-    Garner::Utils::Persistence.setup
+    Garnet.prepare(:persistence)
+    Garnet.app.start(:persistence)
+    Inventory::Service.finalize!
     begin
-      Garner::Utils::Persistence.each_provider(container: Garnet.app) do |provider|
+      Garner::Utils::Persistence.each_keys do |key|
+        provider = Garner::Utils::Persistence::Provider.new(key)
+        Garner::Utils::Persistence::Checker.new.check
+
         puts 'Checking Db, ping...'
-        provider.check
-        puts " - Database url: #{provider.persistence.source.config.database_url}"
-        puts " - Db user: #{provider.persistence.source.config.db_user}"
-        puts " - Sql log enabled?: #{provider.persistence.source.config.enable_sql_log}"
+
+        source = provider.persistence.source
+        puts " - Database url: #{source.config.database_url}"
+        puts " - Db user: #{source.config.db_user}"
+        puts " - Sql log enabled?: #{source.config.enable_sql_log}"
         puts 'Pong!'
       end
     rescue StandardError => e

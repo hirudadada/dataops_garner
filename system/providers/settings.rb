@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/garner/types'
-
 module Garner
   App.register_provider(:settings, from: :dry_system) do # rubocop:disable Metrics/BlockLength
     settings do # rubocop:disable Metrics/BlockLength
