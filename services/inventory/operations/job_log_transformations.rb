@@ -5,11 +5,6 @@ module Inventory
     class JobLogTransformations < Inventory::Operation
       include Deps['operations.job_step_log_transformations']
 
-      # def initialize(job_log_mapping, job_step_log_transformations)
-      #   @job_log_mapping = job_log_mapping
-      #   @job_step_log_transformations = job_step_log_transformations
-      # end
-      #
       def to_database_job_log(value)
         value[:job_step_logs] = value[:job_step_logs].map do |step_log|
           job_step_log_transformations.to_database_job_step_log(step_log)

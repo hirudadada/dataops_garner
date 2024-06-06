@@ -7,6 +7,15 @@ module Inventory
         base_query.command(:create).call(job_log)
       end
 
+      def one
+        job_logs
+          .limit(1)
+          .combine(:job_step_logs)
+          .to_a
+      end
+
+      alias_method :check, :one
+
       def find_collectable(limit:)
         job_logs
           .collectable

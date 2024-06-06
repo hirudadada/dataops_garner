@@ -3,10 +3,6 @@
 module Inventory
   module Operations
     class JobStepLogTransformations < Inventory::Operation
-      # def initialize(job_step_log_mapping)
-      #   @job_step_log_mapping = job_step_log_mapping
-      # end
-      #
       def to_database_job_step_log(value)
         value.transform_keys! { |key| job_step_log_mapping[key] || key }
       end
