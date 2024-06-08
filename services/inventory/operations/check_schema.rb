@@ -6,8 +6,9 @@ module Inventory
       include Garnet::Utils::PrettyPrint
 
       def call
-        job_log = job_logs_repo.check
+        job_log = job_logs_repo.one
         logger.debug "Check schema with job_log: #{job_log}"
+        job_log
       end
     end
   end

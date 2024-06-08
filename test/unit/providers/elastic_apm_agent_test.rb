@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../../../spec/helpers/test_helper'
+require_relative '../../../test/helpers/test_helper'
 
-class ElasticApmAgentTest < Minitest::Test
+class Garner::App::ElasticApmAgentTest < Minitest::Test
   attr_reader :config, :default_options
 
   def setup

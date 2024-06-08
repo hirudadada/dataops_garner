@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../spec/helpers/test_helper'
+require_relative '../../../test/helpers/test_helper'
 
 class StringOrNilConfig
   attr_reader :constructor

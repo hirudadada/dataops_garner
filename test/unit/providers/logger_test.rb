@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../../../spec/helpers/test_helper'
+require_relative '../../../test/helpers/test_helper'
 
-class LoggerTest < Minitest::Test
+class Garner::App::LoggerTest < Minitest::Test
   attr_reader :config, :settings
 
   def setup
@@ -12,8 +12,8 @@ class LoggerTest < Minitest::Test
   end
 
   def test_allowed_level
-    refute_nil config.app_name
-    refute_nil config.formatter
+    refute_nil config.name
+    refute_nil config.log_formatter
     assert config.log_level == settings.log_level.to_sym
   end
 end

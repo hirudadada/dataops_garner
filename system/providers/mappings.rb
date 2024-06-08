@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../../lib/app/utils/mappings'
+require_relative '../../lib/app/utils/mappings'
 
 module Inventory
   Service.register('mappings.job_log_mapping', Garner::Utils::Mappings::JobLog::MAPPING)

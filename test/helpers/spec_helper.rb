@@ -2,8 +2,9 @@
 
 require 'minitest/autorun'
 require 'minitest/spec'
-require_relative '../support/job_fixtures'
+
+require_relative '../support/settings'
 
 class Minitest::Spec
-  include JobFixtures
+  include Settings
 end

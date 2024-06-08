@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../../../services/ingestion/job'
-
 module Ingestion
   Service.register :job do
     config = Garnet.app['settings']

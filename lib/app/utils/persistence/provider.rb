@@ -14,10 +14,6 @@ module Garner
         def rom = container[:"#{key}.rom"]
 
         def persistence = container.providers[key]
-
-        def check
-          Garnet.services[:inventory]['checker']
-        end
       end
     end
   end

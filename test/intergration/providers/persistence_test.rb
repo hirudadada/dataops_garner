@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
-require_relative '../../../spec/helpers/test_helper'
-require_relative '../../../lib/app/utils/persistence'
+require_relative '../../../test/helpers/test_helper'
 
 class DBProviderTest < Minitest::Test
-  attr_reader :provider, :db
+  attr_reader :db, :validator
 
-  def setup(key: nil)
-    @provider = Garner::Utils::Persistence::Provider.new(key)
+  def setup
+    Garner::Utils::Persistence.start_service
+    provider = Garner::Utils::Persistence::Provider.new
     @db = provider.rom
+    @validator = Garner::Utils::Persistence::Validator.new
   end
 
   def test_db_provider_registered
@@ -25,6 +26,6 @@ class DBProviderTest < Minitest::Test
   end
 
   def test_db_schema_valid
-    assert provider.check, 'DB Schema should be valid'
+    assert validator.validate, 'DB Schema should be valid'
   end
 end

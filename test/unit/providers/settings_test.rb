@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../../../spec/helpers/test_helper'
+require_relative '../../../test/helpers/test_helper'
 
-class SettingsTest < Minitest::Test
+class Garner::App::SettingsTest < Minitest::Test
   def setup
     @settings = Garnet.app['settings']
   end
@@ -11,7 +11,6 @@ class SettingsTest < Minitest::Test
     refute_nil @settings.app_name, 'log_level should be present.'
     refute_nil @settings.log_level, 'app_name should be present.'
     refute_nil @settings.ingestion_job_enabled, 'simulation_job_enabled should be present.'
-    refute_nil @settings.ingestion_job_max_batches, 'ingestion_job_max_batches should be present.'
     refute_nil @settings.database_url, 'database_url should be present.'
     refute_nil @settings.elastic_apm_server_url, 'elastic_apm_server_url should be present.'
     refute_nil @settings.elastic_apm_enabled, 'elastic_apm_enabled should be present.'

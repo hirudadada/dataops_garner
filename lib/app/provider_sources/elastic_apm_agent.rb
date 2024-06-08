@@ -6,3 +6,10 @@ require 'openssl'
 
 require_relative 'elastic_apm_agent/check_connection'
 require_relative 'elastic_apm_agent/source'
+
+module Garner
+  module ProviderSources
+    module ElasticApmAgent
+    end
+  end
+end
