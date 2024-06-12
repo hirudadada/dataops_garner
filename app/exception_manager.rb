@@ -16,7 +16,7 @@ module Garner
         Module.new do
           define_singleton_method :included do |base|
             base.extend ClassMethods
-            ProvisionExceptionManager.register(exception_class, base.method(:handle_exception))
+            ExceptionManager.register(exception_class, base.method(:handle_exception))
           end
         end
       end

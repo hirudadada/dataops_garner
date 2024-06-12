@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'yaml'
+require_relative '../../../garner'
 require_relative '../../helpers/test_helper'
 
 class Ingestion::Service::IngestionJobTest < Minitest::Test

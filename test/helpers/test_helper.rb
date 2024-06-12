@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
-ENV['APP_ENV'] = 'test'
-
-require 'pry'
-
-require_relative '../../garner'
+require_relative '../support/env'
 require_relative '../support/settings'
 
 require 'minitest/autorun'

@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
+require_relative '../support/env'
+require_relative '../support/settings'
+
 require 'minitest/autorun'
 require 'minitest/spec'
-
-require_relative '../support/settings'
 
 class Minitest::Spec
   include Settings

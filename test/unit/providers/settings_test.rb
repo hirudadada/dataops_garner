@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative '../../../garner'
 require_relative '../../../test/helpers/test_helper'
 
 class Garner::App::SettingsTest < Minitest::Test
