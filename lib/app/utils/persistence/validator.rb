@@ -1,19 +1,27 @@
 # frozen_string_literal: true
 
-require_relative '../../../../services/inventory'
-
 module Garner
   module Utils
     module Persistence
       class Validator
-        include Inventory::Deps['operations.check_schema']
+        def initialize(rom, container = nil)
+          @repo = Inventory::Repositories::JobLogsRepo.new(rom)
+          container ||= Garnet.app
+          @logger = container[:logger]
+        end
 
-        def validate
-          response = check_schema.call
+        def call
+          response = check_schema
           validate_job_log_response(response)
         end
 
         protected
+
+        def check_schema
+          job_log = repo.one
+          logger.debug "Check schema with job_log: #{job_log}"
+          job_log
+        end
 
         def validate_job_log_response(response)
           return false, "Expected an array, but got #{response.class}" unless response.is_a?(Array)
@@ -27,6 +35,10 @@ module Garner
 
           [true, nil]
         end
+
+        private
+
+        attr_reader :repo, :logger
       end
     end
   end
